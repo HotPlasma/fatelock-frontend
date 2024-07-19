@@ -33,7 +33,7 @@ function Copyright() {
       align="center"
     >
       {'Copyright © '}
-      <Link color="inherit" href="fatelock.com">
+      <Link color="inherit" href="http://fatelock.com">
         FateLock Consulting
       </Link>{' '}
       {new Date().getFullYear()}.
