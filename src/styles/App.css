@@ -13,12 +13,13 @@
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 5em #646cffaa);
+  filter: drop-shadow(0 0 7em #646cffcc);
 }
 
 .logo.react:hover {
-  filter: drop-shadow(0 0 5em #61dafbaa);
+  filter: drop-shadow(0 0 7em #61dafbcc);
 }
+
 
 .card {
   padding: 1em;
