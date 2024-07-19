@@ -12,16 +12,16 @@ function App() {
       <div>
         <ResponsiveAppBar />
       </div>
-      <div>
+      {/* <div>
         <img src={logo} className="logo" alt="FateLock Logo" />
       </div>
       <h1>Work in Progress</h1>
       <div className="card">
         <p>
           This page is currently under construction. Check back soon for updates!
-        </p>
-        <Copyright />
-      </div>
+        </p> */}
+      <Copyright />
+      {/* </div> */}
     </>
   )
 }
