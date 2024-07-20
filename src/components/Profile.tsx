@@ -1,9 +1,8 @@
 import React from 'react';
-import { Box, Typography, Card, CardContent, Button } from '@mui/material';
+import { Box, Typography, Card, CardContent, Button, Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import profileImage from '../assets/images/headphones.jpg';
-import '../styles/App.css'
-
+import '../styles/App.css';
 
 // Variants for animation
 const fadeInVariants = {
@@ -13,18 +12,18 @@ const fadeInVariants = {
 
 const Profile: React.FC = () => {
     return (
-        <Card elevation={0} sx={{ backgroundColor: 'transparent' }}>
-            <CardContent sx={{ backgroundColor: 'transparent' }}>
-                <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Card elevation={0} sx={{ backgroundColor: 'transparent', maxWidth: '100%', overflow: 'hidden' }}>
+            <CardContent sx={{ backgroundColor: 'transparent', p: 2 }}>
+                <Grid container spacing={2} alignItems="center" justifyContent="center">
                     {/* Text Section */}
-                    <Box flex="1" pr={2}>
+                    <Grid item xs={12} md={6}>
                         <motion.div
                             initial="hidden"
                             animate="visible"
                             variants={fadeInVariants}
                             transition={{ duration: 0.5, delay: 0.2 }}
                         >
-                            <Typography variant="h3" component="h1" gutterBottom>
+                            <Typography variant="h3" component="h1" gutterBottom sx={{ fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' } }}>
                                 Hey there!
                             </Typography>
                         </motion.div>
@@ -34,7 +33,7 @@ const Profile: React.FC = () => {
                             variants={fadeInVariants}
                             transition={{ duration: 0.5, delay: 0.4 }}
                         >
-                            <Typography variant="body1" gutterBottom color={'whitesmoke'}>
+                            <Typography variant="body1" gutterBottom color={'whitesmoke'} sx={{ fontSize: { xs: '0.875rem', sm: '1rem', md: '1.25rem' } }}>
                                 I'm Egor Kharlamov. Experienced DevOps Engineer and below average React developer
                             </Typography>
                         </motion.div>
@@ -53,44 +52,47 @@ const Profile: React.FC = () => {
                                 </Button>
                             </Box>
                         </motion.div>
-                    </Box>
+                    </Grid>
                     {/* Image Section */}
-                    <Box
-                        display="inline-block"
-                        position="relative"
-                        borderRadius="8px"
-                        overflow="hidden"
-                    >
-                        <motion.div
-                            initial="hidden"
-                            animate="visible"
-                            variants={fadeInVariants}
-                            transition={{ duration: 0.5, delay: 0.8 }}
-                        >
-                            <Box
-                                component="img"
-                                src={profileImage}
-                                alt="Egor Kharlamov"
-                                sx={{ width: '30em', height: 'auto', display: 'block' }}
-                            />
-                        </motion.div>
+                    <Grid item xs={12} md={6}>
                         <Box
-                            position="absolute"
-                            bottom="0"
-                            bgcolor="rgba(102, 45, 145, 0.3)"
-                            color="white"
-                            p={1}
-                            width="100%"
-                            textAlign="center"
+                            display="inline-block"
+                            position="relative"
+                            borderRadius="8px"
+                            overflow="hidden"
+                            sx={{ width: '100%', height: 'auto' }}
                         >
-                            <Typography variant="caption">
-                                “If I could get out of bed at 8am I'd be fucking unstoppable.”
-                            </Typography>
+                            <motion.div
+                                initial="hidden"
+                                animate="visible"
+                                variants={fadeInVariants}
+                                transition={{ duration: 0.5, delay: 0.8 }}
+                            >
+                                <Box
+                                    component="img"
+                                    src={profileImage}
+                                    alt="Egor Kharlamov"
+                                    sx={{ width: '100%', height: 'auto', display: 'block' }}
+                                />
+                            </motion.div>
+                            <Box
+                                position="absolute"
+                                bottom="0"
+                                bgcolor="rgba(102, 45, 145, 0.3)"
+                                color="white"
+                                p={1}
+                                width="100%"
+                                textAlign="center"
+                            >
+                                <Typography variant="caption" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
+                                    “If I could get out of bed at 8am I'd be fucking unstoppable.”
+                                </Typography>
+                            </Box>
                         </Box>
-                    </Box>
-                </Box>
+                    </Grid>
+                </Grid>
             </CardContent>
-        </Card >
+        </Card>
     );
 };
 
