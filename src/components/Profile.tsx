@@ -16,7 +16,7 @@ const fadeInVariants = {
 
 // Icons for the second section
 const icons = [
-    { component: BuildIcon, title: 'DevOps Engineer', description: 'I am experienced in working with clients and stakeholders to identify their needs and translate requirements into technical solutions, many of which are used by millions daily. I love automating away repetitive work and resolving critical issues. It\'s very fulfilling. Even better - catch the problem early in future.' },
+    { component: BuildIcon, title: 'DevOps Engineer', description: 'I\'m very experienced in working with clients and stakeholders to identify their needs and translate requirements into cloud-based technical solutions, many of which are used by millions daily. I love automating away repetitive work and resolving critical issues causing blockers. It\'s very fulfilling. Even better lets discuss how to catch the problem early in future.' },
     { component: HttpIcon, title: 'Strong Fullstack Developer', description: 'Problem solver first and foremost. I\'ve fixed everything from android apps to windows servers to smart fridges. But don\'t just take my word for it. I may specalise in the cloud but the doesn\'t mean I can\'t make a react website with the best of them!' },
     { component: CodeIcon, title: 'Code Ownership Beyond Production', description: 'As a veteran of final line on call - I ensure all production incidents are swiftly actioned following best practices for minimal disruption in a way that will be auditable in future. I have lead investigations into critical tech issues for multinational giants and the UK government, production is safe in my hands.' },
 ];
@@ -29,14 +29,14 @@ const Profile: React.FC = () => {
 
     // Intersection Observer Hook for the second section
     const { ref: sectionRef, inView: sectionInView } = useInView({
-        // triggerOnce: true,
-        threshold: 0.5,
+        triggerOnce: true,
+        threshold: 0.6,
     });
 
     return (
         <Card elevation={0} sx={{ backgroundColor: 'transparent', maxWidth: '100%', overflow: 'hidden' }}>
             <CardContent sx={{ backgroundColor: 'transparent', p: 2 }}>
-                <Grid container spacing={2} alignItems="center" justifyContent="center" marginBottom={30}>
+                <Grid container spacing={2} alignItems="center" justifyContent="center" marginBottom={25}>
                     {/* Text Section */}
                     <Grid item xs={12} md={6} sx={{ mt: 8 }}>
                         <motion.div
@@ -76,7 +76,7 @@ const Profile: React.FC = () => {
                         </motion.div>
                     </Grid>
                     {/* Image Section */}
-                    <Grid item xs={12} md={6} sx={{ mt: 8 }}> {/* Added top margin to avoid overlapping */}
+                    <Grid item xs={12} md={6} sx={{ mt: 8 }}>
                         <Box
                             display="inline-block"
                             position="relative"
@@ -123,7 +123,7 @@ const Profile: React.FC = () => {
                         transition={{ duration: 0.6, delay: 0.2 }}
                     >
                         <Typography variant="h3" component="h2" gutterBottom>
-                            You're busy, here's what you need to know
+                            What I offer in a nutshell
                         </Typography>
                         <Typography variant="body1" color={'whitesmoke'} marginBottom={3}>
                             Experienced DevOps Engineer, Proven Technical Manager & Charismatic Team Lead
@@ -131,15 +131,22 @@ const Profile: React.FC = () => {
                         <Grid container spacing={2} justifyContent="center">
                             {icons.map((icon, index) => (
                                 <Grid item xs={12} sm={4} key={index}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <icon.component sx={{ fontSize: 50, color: 'primary.main' }} />
-                                        <Typography variant="h6" component="h3" gutterBottom color={'whitesmoke'}>
-                                            {icon.title}
-                                        </Typography>
-                                        <Typography variant="body2" color={'whitesmoke'}>
-                                            {icon.description}
-                                        </Typography>
-                                    </Box>
+                                    <motion.div
+                                        initial="hidden"
+                                        animate={sectionInView ? "visible" : "hidden"}
+                                        variants={fadeInVariants}
+                                        transition={{ duration: 0.6, delay: 0.6 + index * 0.5 }}
+                                    >
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                            <icon.component sx={{ fontSize: 50, color: 'primary.main' }} />
+                                            <Typography variant="h6" component="h3" gutterBottom color={'whitesmoke'}>
+                                                {icon.title}
+                                            </Typography>
+                                            <Typography variant="body2" color={'whitesmoke'}>
+                                                {icon.description}
+                                            </Typography>
+                                        </Box>
+                                    </motion.div>
                                 </Grid>
                             ))}
                         </Grid>

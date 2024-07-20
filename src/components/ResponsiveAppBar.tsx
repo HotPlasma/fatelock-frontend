@@ -25,6 +25,11 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
+  const handleHomeClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    handleCloseNavMenu();
+  };
+
   return (
     <AppBar position="fixed" sx={{ width: '100%', top: 0, bgcolor: '#242424', zIndex: 1 }}>
       <Toolbar>
@@ -78,7 +83,10 @@ function ResponsiveAppBar() {
             sx={{ display: { xs: 'block', md: 'none' } }}
           >
             {pages.map((page) => (
-              <MenuItem key={page} onClick={handleCloseNavMenu}>
+              <MenuItem
+                key={page}
+                onClick={page === 'Home' ? handleHomeClick : handleCloseNavMenu}
+              >
                 <Typography textAlign="center">{page}</Typography>
               </MenuItem>
             ))}
@@ -108,6 +116,7 @@ function ResponsiveAppBar() {
           {pages.map((page) => (
             <Button
               key={page}
+              onClick={page === 'Home' ? handleHomeClick : undefined}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
               {page}
