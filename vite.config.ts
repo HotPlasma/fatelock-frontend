@@ -5,7 +5,7 @@ import vitePluginFaviconsInject from 'vite-plugin-favicons-inject';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(),
-  vitePluginFaviconsInject('src/assets/images/logo.png')
+  process.env.NODE_ENV == "production" ? vitePluginFaviconsInject('src/assets/images/logo.png') : false
   ],
   server: {
     watch: {

@@ -3,6 +3,7 @@ import logo from './assets/images/logo.png';
 import ResponsiveAppBar from './components/ResponsiveAppBar.tsx';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import AnimatedCursor from "react-animated-cursor"
 
 
 function App() {
@@ -24,6 +25,17 @@ function App() {
 
         <Copyright />
       </div>
+      <AnimatedCursor
+        showSystemCursor={true}
+        trailingSpeed={12}
+        innerSize={0}
+        outerSize={20}
+        outerScale={2}
+        outerAlpha={0}
+        outerStyle={{
+          border: '3px solid var(--cursor-color)'
+        }}
+      />
     </>
   )
 }

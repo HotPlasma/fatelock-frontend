@@ -26,7 +26,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="fixed" sx={{ width: '100%', top: 0, bgcolor: '#242424' }}>
+    <AppBar position="fixed" sx={{ width: '100%', top: 0, bgcolor: '#242424', zIndex: 0 }}>
       <Toolbar>
         <Box
           component="img"
@@ -38,7 +38,6 @@ function ResponsiveAppBar() {
           variant="h6"
           noWrap
           component="a"
-          href="#app-bar-with-responsive-menu"
           sx={{
             mr: 2,
             display: { xs: 'none', sm: 'flex' },

@@ -24,3 +24,7 @@
 .card {
   padding: 1em;
 }
+
+html {
+  --cursor-color: #ee572c
+}
