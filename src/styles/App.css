@@ -34,4 +34,6 @@ h2,
 h3,
 body {
   color: whitesmoke;
+  font-weight: 500;
+  font-family: Inter
 }

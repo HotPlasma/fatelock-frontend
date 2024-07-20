@@ -3,7 +3,7 @@ import './styles/App.css'
 import ResponsiveAppBar from './components/ResponsiveAppBar.tsx';
 import Profile from './components/Profile.tsx';
 import Link from '@mui/material/Link';
-import { Typography } from '@mui/material';
+import { Typography, Divider } from '@mui/material';
 import AnimatedCursor from "react-animated-cursor"
 
 
@@ -15,6 +15,7 @@ function App() {
         <ResponsiveAppBar />
       </div>
       <Profile />
+      <Divider sx={{ my: 4, color: 'white' }} />
       <div>
         <Copyright />
       </div>
