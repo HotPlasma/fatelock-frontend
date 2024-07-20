@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Box, Typography, Grid, Button, Card, CardContent } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -6,44 +6,61 @@ import SGImage from '../assets/images/SG.jpg';
 import DroplessImage from '../assets/images/dropless.jpg';
 import BJSSImage from '../assets/images/bjss.jpg';
 
-const fadeInVariants = (direction: string) => ({
-    hidden: {
-        opacity: 0,
-        x: direction === 'left' ? -50 : direction === 'right' ? 50 : 0,
-    },
-    visible: {
-        opacity: 1,
-        x: 0,
-    },
-});
+const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
+    const { ref: sectionRef, inView: sectionInView } = useInView({
+        triggerOnce: true,
+        threshold: 0.3,
+    });
 
-const jobs = [
-    {
-        image: BJSSImage,
-        title: 'DevOps Engineer & Squad Lead (Current Role)',
-        description: 'Consulting as a DevOps Engineer for the NHS Login Platform of over 42 million users. Dockerised code, improved security by adding vulnerability scans to all pipelines, created developer testing infrastructure. Resolved complex issues while on call.',
-        liveSite: 'https://www.bjss.com/',
-        checkCode: '#',
-    },
-    {
-        image: DroplessImage,
-        title: 'Lead Cloud Engineer',
-        description: 'Moved this scale up company from on-prem to AWS. The final solution included Cloudfront, Cloudformation, ECS, CodePipeline, RGS (postgres), lambdas and cloudwatch.',
-        liveSite: 'https://dropless.co.uk/',
-        checkCode: '#',
-    },
-    {
-        image: SGImage,
-        title: 'Lead Game Developer',
-        description: 'Developed Slot Games with Typescript and C++, later took on a more DevOps role using EC2, Jenkins, Linux and windows servers.',
-        liveSite: 'https://igaming-demo.lnw.com/checkage',
-        checkCode: '#',
-    },
-];
+    // Combine both refs into one
+    const combinedRef = (node: HTMLDivElement) => {
+        if (ref) {
+            if (typeof ref === 'function') {
+                ref(node);
+            } else if (ref.current !== undefined) {
+                ref.current = node;
+            }
+        }
+        sectionRef(node);
+    };
 
-const JobsComponent: React.FC = () => {
+    const fadeInVariants = (direction: string) => ({
+        hidden: {
+            opacity: 0,
+            x: direction === 'left' ? -50 : direction === 'right' ? 50 : 0,
+        },
+        visible: {
+            opacity: 1,
+            x: 0,
+        },
+    });
+
+    const jobs = [
+        {
+            image: BJSSImage,
+            title: 'DevOps Engineer & Squad Lead (Current Role)',
+            description: 'Consulting as a DevOps Engineer for the NHS Login Platform of over 42 million users. Dockerised code, improved security by adding vulnerability scans to all pipelines, created developer testing infrastructure. Resolved complex issues while on call.',
+            liveSite: 'https://www.bjss.com/',
+            checkCode: '#',
+        },
+        {
+            image: DroplessImage,
+            title: 'Lead Cloud Engineer',
+            description: 'Moved this scale up company from on-prem to AWS. The final solution included Cloudfront, Cloudformation, ECS, CodePipeline, RGS (postgres), lambdas and cloudwatch.',
+            liveSite: 'https://dropless.co.uk/',
+            checkCode: '#',
+        },
+        {
+            image: SGImage,
+            title: 'Lead Game Developer',
+            description: 'Developed Slot Games with Typescript and C++, later took on a more DevOps role using EC2, Jenkins, Linux and windows servers.',
+            liveSite: 'https://igaming-demo.lnw.com/checkage',
+            checkCode: '#',
+        },
+    ];
+
     return (
-        <Box mt={4} p={2} textAlign="center">
+        <Box mt={4} p={2} textAlign="center" ref={combinedRef} {...props}>
             <Typography variant="h3" component="h2" gutterBottom>
                 Professional Experience
             </Typography>
@@ -77,9 +94,6 @@ const JobsComponent: React.FC = () => {
                                             <Button variant="contained" color="primary" sx={{ mr: 2 }} href={job.liveSite} target="_blank">
                                                 Company Website
                                             </Button>
-                                            {/* <Button variant="outlined" color="primary" href={job.checkCode} target="_blank">
-                                                Check Code
-                                            </Button> */}
                                         </Box>
                                     </CardContent>
                                 </Card>
@@ -90,6 +104,6 @@ const JobsComponent: React.FC = () => {
             </Grid>
         </Box>
     );
-};
+});
 
 export default JobsComponent;

@@ -10,17 +10,18 @@ import AnimatedCursor from "react-animated-cursor";
 
 function App() {
   const toolsRef = useRef(null);
+  const jobsRef = useRef(null);
 
   return (
     <>
       <div>
-        <ResponsiveAppBar toolsRef={toolsRef} />
+        <ResponsiveAppBar toolsRef={toolsRef} jobsRef={jobsRef} />
       </div>
-      <Profile />
+      <Profile projectsRef={jobsRef} />
       <Divider sx={{ my: 20, color: 'white' }} />
       <ToolsComponent ref={toolsRef} />
       <Divider sx={{ my: 20, color: 'white' }} />
-      <JobsComponent />
+      <JobsComponent ref={jobsRef} />
       <div>
         <Copyright />
       </div>

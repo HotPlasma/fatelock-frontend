@@ -16,9 +16,10 @@ const pages = ['Home', 'Experience', 'Projects', 'About'];
 
 interface ResponsiveAppBarProps {
   toolsRef: React.RefObject<HTMLDivElement>;
+  jobsRef: React.RefObject<HTMLDivElement>;
 }
 
-const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef }) => {
+const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef }) => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -37,6 +38,13 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef }) => {
   const handleExperienceClick = () => {
     if (toolsRef.current) {
       toolsRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+    handleCloseNavMenu();
+  };
+
+  const handleProjectsClick = () => {
+    if (jobsRef.current) {
+      jobsRef.current.scrollIntoView({ behavior: 'smooth' });
     }
     handleCloseNavMenu();
   };
@@ -96,7 +104,21 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef }) => {
             {pages.map((page) => (
               <MenuItem
                 key={page}
-                onClick={page === 'Home' ? handleHomeClick : page === 'Experience' ? handleExperienceClick : handleCloseNavMenu}
+                onClick={() => {
+                  switch (page) {
+                    case 'Home':
+                      handleHomeClick();
+                      break;
+                    case 'Experience':
+                      handleExperienceClick();
+                      break;
+                    case 'Projects':
+                      handleProjectsClick();
+                      break;
+                    default:
+                      handleCloseNavMenu();
+                  }
+                }}
               >
                 <Typography textAlign="center">{page}</Typography>
               </MenuItem>
@@ -108,7 +130,6 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef }) => {
           variant="h5"
           noWrap
           component="a"
-          href="#app-bar-with-responsive-menu"
           sx={{
             display: { xs: 'flex', sm: 'none' },
             flexGrow: 1,
@@ -127,7 +148,7 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef }) => {
           {pages.map((page) => (
             <Button
               key={page}
-              onClick={page === 'Home' ? handleHomeClick : page === 'Experience' ? handleExperienceClick : undefined}
+              onClick={page === 'Home' ? handleHomeClick : page === 'Experience' ? handleExperienceClick : page === 'Projects' ? handleProjectsClick : undefined}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
               {page}

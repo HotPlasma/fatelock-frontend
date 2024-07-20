@@ -21,7 +21,11 @@ const icons = [
     { component: CodeIcon, title: 'Code Ownership Beyond Production', description: 'As a veteran of final line on call - I ensure all production incidents are swiftly actioned following best practices for minimal disruption in a way that will be auditable in future. I have lead investigations into critical tech issues for multinational giants and the UK government, production is safe in my hands.' },
 ];
 
-const Profile: React.FC = () => {
+interface ProfileProps {
+    projectsRef: React.RefObject<HTMLDivElement>;
+}
+
+const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
     // Scroll to top on mount
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -36,6 +40,12 @@ const Profile: React.FC = () => {
     // Use theme and media query hook to detect mobile
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const handleProjectsClick = () => {
+        if (projectsRef.current) {
+            projectsRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     return (
         <Card elevation={0} sx={{ backgroundColor: 'transparent', maxWidth: '100%', overflow: 'hidden' }}>
@@ -70,10 +80,10 @@ const Profile: React.FC = () => {
                             transition={{ duration: 0.5, delay: 0.6 }}
                         >
                             <Box mt={2}>
-                                <Button variant="contained" color="primary" sx={{ mr: 2 }}>
+                                <Button variant="contained" color="primary" sx={{ mr: 2 }} onClick={handleProjectsClick}>
                                     View Projects
                                 </Button>
-                                <Button variant="outlined" color="primary">
+                                <Button variant="outlined" color="primary" href="https://www.linkedin.com/in/egorkha/" target="_blank">
                                     Contact on LinkedIn
                                 </Button>
                             </Box>
