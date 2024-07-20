@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import LogoIcon from '../assets/images/logo.png';
 import EgorIcon from '../assets/images/sunglasses.jpg';
 
-const pages = ['Home', 'Experience', 'Projects', 'About'];
+const pages = ['Profile', 'My Skillset', 'Professional Experience', 'About'];
 
 interface ResponsiveAppBarProps {
   toolsRef: React.RefObject<HTMLDivElement>;
@@ -106,13 +106,13 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef }
                 key={page}
                 onClick={() => {
                   switch (page) {
-                    case 'Home':
+                    case 'Profile':
                       handleHomeClick();
                       break;
-                    case 'Experience':
+                    case 'My Skillset':
                       handleExperienceClick();
                       break;
-                    case 'Projects':
+                    case 'Professional Experience':
                       handleProjectsClick();
                       break;
                     default:
@@ -148,7 +148,21 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef }
           {pages.map((page) => (
             <Button
               key={page}
-              onClick={page === 'Home' ? handleHomeClick : page === 'Experience' ? handleExperienceClick : page === 'Projects' ? handleProjectsClick : undefined}
+              onClick={() => {
+                switch (page) {
+                  case 'Profile':
+                    handleHomeClick();
+                    break;
+                  case 'My Skillset':
+                    handleExperienceClick();
+                    break;
+                  case 'Professional Experience':
+                    handleProjectsClick();
+                    break;
+                  default:
+                    handleCloseNavMenu();
+                }
+              }}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
               {page}
@@ -164,6 +178,6 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef }
       </Toolbar>
     </AppBar>
   );
-}
+};
 
 export default ResponsiveAppBar;

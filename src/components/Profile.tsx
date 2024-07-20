@@ -81,7 +81,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                         >
                             <Box mt={2}>
                                 <Button variant="contained" color="primary" sx={{ mr: 2 }} onClick={handleProjectsClick}>
-                                    View Projects
+                                    View Professional Experience
                                 </Button>
                                 <Button variant="outlined" color="primary" href="https://www.linkedin.com/in/egorkha/" target="_blank">
                                     Contact on LinkedIn
