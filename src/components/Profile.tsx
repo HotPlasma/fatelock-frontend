@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Typography, Card, CardContent, Button, Grid } from '@mui/material';
+import { Box, Typography, Card, CardContent, Button, Grid, useMediaQuery, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import profileImage from '../assets/images/headphones.jpg';
@@ -33,6 +33,10 @@ const Profile: React.FC = () => {
         threshold: 0.3,
     });
 
+    // Use theme and media query hook to detect mobile
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
     return (
         <Card elevation={0} sx={{ backgroundColor: 'transparent', maxWidth: '100%', overflow: 'hidden' }}>
             <CardContent sx={{ backgroundColor: 'transparent', p: 2 }}>
@@ -56,7 +60,7 @@ const Profile: React.FC = () => {
                             transition={{ duration: 0.5, delay: 0.4 }}
                         >
                             <Typography variant="body1" gutterBottom color={'whitesmoke'} sx={{ fontSize: { xs: '0.875rem', sm: '1rem', md: '1.25rem' } }}>
-                                I'm Egor Kharlamov. Experienced DevOps Engineer and below average React developer.
+                                I'm Egor Kharlamov. Experienced AWS and Azure DevOps Engineer Consultant with a background of over 8 years of professional software development experience specialising in cloud infrastructure design, implementation and management.
                             </Typography>
                         </motion.div>
                         <motion.div
@@ -70,7 +74,7 @@ const Profile: React.FC = () => {
                                     View Projects
                                 </Button>
                                 <Button variant="outlined" color="primary">
-                                    View Resume
+                                    Contact on LinkedIn
                                 </Button>
                             </Box>
                         </motion.div>
@@ -80,7 +84,7 @@ const Profile: React.FC = () => {
                         <Box
                             display="inline-block"
                             position="relative"
-                            borderRadius="8px"
+                            borderRadius="25px"
                             overflow="hidden"
                             sx={{ width: '100%', height: 'auto' }}
                         >
@@ -97,19 +101,28 @@ const Profile: React.FC = () => {
                                     sx={{ width: '100%', height: 'auto', display: 'block', zIndex: "0" }}
                                 />
                             </motion.div>
-                            <Box
-                                position="absolute"
-                                bottom="0"
-                                bgcolor="rgba(102, 45, 145, 0.3)"
-                                color="white"
-                                p={1}
-                                width="100%"
-                                textAlign="center"
+                            <motion.div
+                                initial="hidden"
+                                animate="visible"
+                                variants={fadeInVariants}
+                                transition={{ duration: 0.5, delay: 1.0 }} // Add delay for the quote box
                             >
-                                <Typography variant="caption" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
-                                    “If I could get out of bed at 8am I'd be unstoppable.”
-                                </Typography>
-                            </Box>
+                                <Box
+                                    position="absolute"
+                                    bottom="0"
+                                    bgcolor="rgba(102, 45, 145, 0.3)"
+                                    color="white"
+                                    p={1}
+                                    width="100%"
+                                    textAlign="center"
+                                >
+                                    <Typography variant="caption" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
+                                        “Whoever desires constant success must
+                                        change his conduct with the times” - Niccolo
+                                        Machiavelli
+                                    </Typography>
+                                </Box>
+                            </motion.div>
                         </Box>
                     </Grid>
                 </Grid>
@@ -133,7 +146,7 @@ const Profile: React.FC = () => {
                                 <Grid item xs={12} sm={4} key={index}>
                                     <motion.div
                                         initial="hidden"
-                                        animate={sectionInView ? "visible" : "hidden"}
+                                        animate={isMobile ? "visible" : (sectionInView ? "visible" : "hidden")}
                                         variants={fadeInVariants}
                                         transition={{ duration: 0.6, delay: 0.6 + index * 0.5 }}
                                     >

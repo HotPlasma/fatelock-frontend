@@ -1,0 +1,95 @@
+import React from 'react';
+import { Box, Typography, Grid, Button, Card, CardContent } from '@mui/material';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import SGImage from '../assets/images/SG.jpg';
+import DroplessImage from '../assets/images/dropless.jpg';
+import BJSSImage from '../assets/images/bjss.jpg';
+
+const fadeInVariants = (direction: string) => ({
+    hidden: {
+        opacity: 0,
+        x: direction === 'left' ? -50 : direction === 'right' ? 50 : 0,
+    },
+    visible: {
+        opacity: 1,
+        x: 0,
+    },
+});
+
+const jobs = [
+    {
+        image: BJSSImage,
+        title: 'DevOps Engineer & Squad Lead (Current Role)',
+        description: 'Consulting as a DevOps Engineer for the NHS Login Platform of over 42 million users. Dockerised code, improved security by adding vulnerability scans to all pipelines, created developer testing infrastructure. Resolved complex issues while on call.',
+        liveSite: 'https://www.bjss.com/',
+        checkCode: '#',
+    },
+    {
+        image: DroplessImage,
+        title: 'Lead Cloud Engineer',
+        description: 'Moved this scale up company from on-prem to AWS. The final solution included Cloudfront, Cloudformation, ECS, CodePipeline, RGS (postgres), lambdas and cloudwatch.',
+        liveSite: 'https://dropless.co.uk/',
+        checkCode: '#',
+    },
+    {
+        image: SGImage,
+        title: 'Lead Game Developer',
+        description: 'Developed Slot Games with Typescript and C++, later took on a more DevOps role using EC2, Jenkins, Linux and windows servers.',
+        liveSite: 'https://igaming-demo.lnw.com/checkage',
+        checkCode: '#',
+    },
+];
+
+const JobsComponent: React.FC = () => {
+    return (
+        <Box mt={4} p={2} textAlign="center">
+            <Typography variant="h3" component="h2" gutterBottom>
+                Professional Experience
+            </Typography>
+            <Typography variant="body1" color="whitesmoke" paragraph>
+                Ask me on LinkedIn for a CV with more info on these
+            </Typography>
+            <Grid container spacing={4} justifyContent="center">
+                {jobs.map((job, index) => {
+                    const direction = index % 2 === 0 ? 'left' : 'right';
+                    return (
+                        <Grid item xs={12} md={8} key={index}>
+                            <motion.div
+                                initial="hidden"
+                                whileInView="visible"
+                                variants={fadeInVariants(direction)}
+                                transition={{ duration: 0.6, delay: index * 0.3 }}
+                                viewport={{ once: true }}
+                            >
+                                <Card sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, mb: 4 }}>
+                                    <Box sx={{ flex: '1 1 50%' }}>
+                                        <img src={job.image} alt={job.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    </Box>
+                                    <CardContent sx={{ flex: '1 1 50%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                        <Typography variant="h5" component="div" gutterBottom>
+                                            {job.title}
+                                        </Typography>
+                                        <Typography variant="body1" color="text.secondary" paragraph>
+                                            {job.description}
+                                        </Typography>
+                                        <Box>
+                                            <Button variant="contained" color="primary" sx={{ mr: 2 }} href={job.liveSite} target="_blank">
+                                                Company Website
+                                            </Button>
+                                            {/* <Button variant="outlined" color="primary" href={job.checkCode} target="_blank">
+                                                Check Code
+                                            </Button> */}
+                                        </Box>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        </Grid>
+                    );
+                })}
+            </Grid>
+        </Box>
+    );
+};
+
+export default JobsComponent;
