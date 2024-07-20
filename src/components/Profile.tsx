@@ -30,7 +30,7 @@ const Profile: React.FC = () => {
     // Intersection Observer Hook for the second section
     const { ref: sectionRef, inView: sectionInView } = useInView({
         triggerOnce: true,
-        threshold: 0.6,
+        threshold: 0.2,
     });
 
     return (

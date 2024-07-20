@@ -1,21 +1,23 @@
-import './styles/App.css'
-// import logo from './assets/images/logo.png';
+import React, { useRef } from 'react';
+import './styles/App.css';
 import ResponsiveAppBar from './components/ResponsiveAppBar.tsx';
 import Profile from './components/Profile.tsx';
+import ToolsComponent from './components/ToolsComponent.tsx';
 import Link from '@mui/material/Link';
 import { Typography, Divider } from '@mui/material';
-import AnimatedCursor from "react-animated-cursor"
-
+import AnimatedCursor from "react-animated-cursor";
 
 function App() {
+  const toolsRef = useRef(null);
 
   return (
     <>
       <div>
-        <ResponsiveAppBar />
+        <ResponsiveAppBar toolsRef={toolsRef} />
       </div>
       <Profile />
       <Divider sx={{ my: 4, color: 'white' }} />
+      <ToolsComponent ref={toolsRef} />
       <div>
         <Copyright />
       </div>
@@ -41,7 +43,7 @@ function Copyright() {
       align="center"
     >
       {'Copyright © '}
-      <Link color="inherit" href="http://fatelock.com">
+      <Link color="inherit" href="https://fatelock.com">
         FateLock Consulting
       </Link>{' '}
       {new Date().getFullYear()}.
@@ -49,4 +51,4 @@ function Copyright() {
   );
 }
 
-export default App
+export default App;

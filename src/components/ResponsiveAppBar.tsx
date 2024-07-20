@@ -14,7 +14,11 @@ import EgorIcon from '../assets/images/sunglasses.jpg';
 
 const pages = ['Home', 'Experience', 'Projects', 'About'];
 
-function ResponsiveAppBar() {
+interface ResponsiveAppBarProps {
+  toolsRef: React.RefObject<HTMLDivElement>;
+}
+
+const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef }) => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -27,6 +31,13 @@ function ResponsiveAppBar() {
 
   const handleHomeClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    handleCloseNavMenu();
+  };
+
+  const handleExperienceClick = () => {
+    if (toolsRef.current) {
+      toolsRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
     handleCloseNavMenu();
   };
 
@@ -85,7 +96,7 @@ function ResponsiveAppBar() {
             {pages.map((page) => (
               <MenuItem
                 key={page}
-                onClick={page === 'Home' ? handleHomeClick : handleCloseNavMenu}
+                onClick={page === 'Home' ? handleHomeClick : page === 'Experience' ? handleExperienceClick : handleCloseNavMenu}
               >
                 <Typography textAlign="center">{page}</Typography>
               </MenuItem>
@@ -116,7 +127,7 @@ function ResponsiveAppBar() {
           {pages.map((page) => (
             <Button
               key={page}
-              onClick={page === 'Home' ? handleHomeClick : undefined}
+              onClick={page === 'Home' ? handleHomeClick : page === 'Experience' ? handleExperienceClick : undefined}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
               {page}
