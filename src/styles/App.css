@@ -28,3 +28,10 @@
 html {
   --cursor-color: #ee572c
 }
+
+h1,
+h2,
+h3,
+body {
+  color: whitesmoke;
+}

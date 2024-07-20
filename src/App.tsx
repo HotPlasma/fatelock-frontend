@@ -1,8 +1,9 @@
 import './styles/App.css'
-import logo from './assets/images/logo.png';
+// import logo from './assets/images/logo.png';
 import ResponsiveAppBar from './components/ResponsiveAppBar.tsx';
-import Typography from '@mui/material/Typography';
+import Profile from './components/Profile.tsx';
 import Link from '@mui/material/Link';
+import { Typography } from '@mui/material';
 import AnimatedCursor from "react-animated-cursor"
 
 
@@ -13,16 +14,8 @@ function App() {
       <div>
         <ResponsiveAppBar />
       </div>
+      <Profile />
       <div>
-        <img src={logo} className="logo" alt="FateLock Logo" />
-      </div>
-      <h1>Work in Progress</h1>
-      <div className="card">
-        <p>
-          This page is currently under construction. Check back soon for updates!
-        </p>
-
-
         <Copyright />
       </div>
       <AnimatedCursor
