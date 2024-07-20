@@ -30,13 +30,13 @@ const Profile: React.FC = () => {
     // Intersection Observer Hook for the second section
     const { ref: sectionRef, inView: sectionInView } = useInView({
         triggerOnce: true,
-        threshold: 0.2,
+        threshold: 0.3,
     });
 
     return (
         <Card elevation={0} sx={{ backgroundColor: 'transparent', maxWidth: '100%', overflow: 'hidden' }}>
             <CardContent sx={{ backgroundColor: 'transparent', p: 2 }}>
-                <Grid container spacing={2} alignItems="center" justifyContent="center" marginBottom={25}>
+                <Grid container spacing={2} alignItems="center" justifyContent="center" marginBottom={10}>
                     {/* Text Section */}
                     <Grid item xs={12} md={6} sx={{ mt: 8 }}>
                         <motion.div
@@ -115,7 +115,7 @@ const Profile: React.FC = () => {
                 </Grid>
 
                 {/* Part 2 */}
-                <Box ref={sectionRef} mt={4} p={2} textAlign="center">
+                <Box mt={4} p={2} textAlign="center">
                     <motion.div
                         initial="hidden"
                         animate={sectionInView ? "visible" : "hidden"}
@@ -128,7 +128,7 @@ const Profile: React.FC = () => {
                         <Typography variant="body1" color={'whitesmoke'} marginBottom={3}>
                             Experienced DevOps Engineer, Proven Technical Manager & Charismatic Team Lead
                         </Typography>
-                        <Grid container spacing={2} justifyContent="center">
+                        <Grid container spacing={2} justifyContent="center" ref={sectionRef}>
                             {icons.map((icon, index) => (
                                 <Grid item xs={12} sm={4} key={index}>
                                     <motion.div
