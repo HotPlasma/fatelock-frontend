@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Typography, Card, CardContent, Button, Grid, Divider } from '@mui/material';
+import { Box, Typography, Card, CardContent, Button, Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import profileImage from '../assets/images/headphones.jpg';
