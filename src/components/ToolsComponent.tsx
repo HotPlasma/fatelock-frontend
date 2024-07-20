@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Box, Typography, Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -62,7 +62,7 @@ const ToolsComponent = forwardRef<HTMLDivElement>((props, ref) => {
     };
 
     return (
-        <Box ref={combinedRef} mt={4} p={2} textAlign="center">
+        <Box ref={combinedRef} mt={4} p={2} textAlign="center" {...props}>
             <div ref={sectionRef}>
                 <motion.div
                     initial="hidden"

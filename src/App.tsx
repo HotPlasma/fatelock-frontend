@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import './styles/App.css';
 import ResponsiveAppBar from './components/ResponsiveAppBar.tsx';
 import Profile from './components/Profile.tsx';
