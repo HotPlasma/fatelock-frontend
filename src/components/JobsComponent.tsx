@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Box, Typography, Grid, Button, Card, CardContent } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -7,7 +7,7 @@ import DroplessImage from '../assets/images/dropless.jpg';
 import BJSSImage from '../assets/images/bjss.jpg';
 
 const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
-    const { ref: sectionRef, inView: sectionInView } = useInView({
+    const { ref: sectionRef } = useInView({
         triggerOnce: true,
         threshold: 0.3,
     });

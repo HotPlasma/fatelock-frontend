@@ -18,10 +18,11 @@ function App() {
         <ResponsiveAppBar toolsRef={toolsRef} jobsRef={jobsRef} />
       </div>
       <Profile projectsRef={jobsRef} />
-      <Divider sx={{ my: 20, color: 'white' }} />
+      <Divider sx={{ my: 3, bgcolor: 'white', height: '1px' }} />
       <ToolsComponent ref={toolsRef} />
-      <Divider sx={{ my: 20, color: 'white' }} />
+      <Divider sx={{ my: 3, bgcolor: 'white', height: '1px' }} />
       <JobsComponent ref={jobsRef} />
+      <Divider sx={{ my: 3, bgcolor: 'white', height: '1px' }} />
       <div>
         <Copyright />
       </div>
