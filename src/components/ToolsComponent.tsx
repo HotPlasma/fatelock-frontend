@@ -31,7 +31,7 @@ const languages = [
 
 const technologies = [
     { component: FaNodeJs, title: 'Node.js', color: '#339933' },
-    { component: SiPoetry, title: 'Poetry', color: '#339933' },
+    { component: SiPoetry, title: 'Poetry', color: '#4b5fdf' },
     { component: FaDocker, title: 'Docker', color: '#2496ED' },
     { component: FaGitAlt, title: 'Git', color: '#F05032' },
     { component: SiTerraform, title: 'Terraform', color: '#623CE4' },
