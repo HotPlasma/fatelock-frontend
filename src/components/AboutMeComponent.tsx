@@ -1,14 +1,32 @@
-import React, { useState } from 'react';
+import { useState, forwardRef } from 'react';
 import { Box, Typography, Grid, Button, Collapse } from '@mui/material';
 import { motion } from 'framer-motion';
-import ProfileImage from '../assets/images/portrait.jpg'; // Adjust the path to your profile image
+import ProfileImage from '../assets/images/portrait.jpg';
+import { useInView } from 'react-intersection-observer';
 
-const fadeInVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-};
+const AboutComponent = forwardRef<HTMLDivElement>((props, ref) => {
+    const { ref: sectionRef } = useInView({
+        triggerOnce: true,
+        threshold: 0.3,
+    });
 
-const AboutMe: React.FC = () => {
+    // Combine both refs into one
+    const combinedRef = (node: HTMLDivElement) => {
+        if (ref) {
+            if (typeof ref === 'function') {
+                ref(node);
+            } else if (ref.current !== undefined) {
+                ref.current = node;
+            }
+        }
+        sectionRef(node);
+    };
+
+    const fadeInVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0 },
+    };
+
     const [expanded, setExpanded] = useState(false);
 
     const handleToggle = () => {
@@ -16,7 +34,7 @@ const AboutMe: React.FC = () => {
     };
 
     return (
-        <Box mt={4} p={2} textAlign="center">
+        <Box mt={4} p={2} textAlign="center" ref={combinedRef} {...props}>
             <Grid container spacing={2} alignItems="center" justifyContent="center">
                 <Grid item xs={12} md={6}>
                     <motion.div
@@ -28,8 +46,8 @@ const AboutMe: React.FC = () => {
                         <Box
                             component="img"
                             src={ProfileImage}
-                            alt="Vito Medlej"
-                            sx={{ width: '100%', borderRadius: '10px', boxShadow: 3 }}
+                            alt="Egor Kharlamov"
+                            sx={{ width: '100%', borderRadius: '30px', boxShadow: 20 }}
                         />
                     </motion.div>
                 </Grid>
@@ -71,6 +89,6 @@ const AboutMe: React.FC = () => {
             </Grid>
         </Box>
     );
-};
+});
 
-export default AboutMe;
+export default AboutComponent;

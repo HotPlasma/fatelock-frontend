@@ -17,9 +17,10 @@ const pages = ['Profile', 'My Skillset', 'Professional Experience', 'About'];
 interface ResponsiveAppBarProps {
   toolsRef: React.RefObject<HTMLDivElement>;
   jobsRef: React.RefObject<HTMLDivElement>;
+  aboutRef: React.RefObject<HTMLDivElement>;
 }
 
-const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef }) => {
+const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef, aboutRef }) => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -30,7 +31,7 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef }
     setAnchorElNav(null);
   };
 
-  const ScrollOffset = 80; //Size of the navigation bar 
+  const ScrollOffset = 80; // Adjust as necessary for your AppBar height
 
   const scrollToRef = (ref: React.RefObject<HTMLDivElement>) => {
     if (ref.current) {
@@ -53,6 +54,11 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef }
 
   const handleProjectsClick = () => {
     scrollToRef(jobsRef);
+    handleCloseNavMenu();
+  };
+
+  const handleAboutClick = () => {
+    scrollToRef(aboutRef);
     handleCloseNavMenu();
   };
 
@@ -122,6 +128,9 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef }
                     case 'Professional Experience':
                       handleProjectsClick();
                       break;
+                    case 'About':
+                      handleAboutClick();
+                      break;
                     default:
                       handleCloseNavMenu();
                   }
@@ -166,6 +175,9 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef }
                   case 'Professional Experience':
                     handleProjectsClick();
                     break;
+                  case 'About':
+                    handleAboutClick();
+                    break;
                   default:
                     handleCloseNavMenu();
                 }
@@ -185,6 +197,6 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef }
       </Toolbar>
     </AppBar>
   );
-};
+}
 
 export default ResponsiveAppBar;

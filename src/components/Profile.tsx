@@ -84,14 +84,14 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                             transition={{ duration: 0.5, delay: 0.6 }}
                         >
                             <Typography variant="body1" gutterBottom color={'whitesmoke'} sx={{ fontSize: { xs: '0.875rem', sm: '1rem', md: '1.25rem' } }}>
-                                And yes I made this website myself
+                                And yes I made this website myself.
                             </Typography>
                         </motion.div>
                         <motion.div
                             initial="hidden"
                             animate="visible"
                             variants={fadeInVariants}
-                            transition={{ duration: 0.5, delay: 0.6 }}
+                            transition={{ duration: 0.5, delay: 0.8 }}
                         >
                             <Box mt={2}>
                                 <Button variant="contained" color="primary" sx={{ mr: 2 }} onClick={handleProjectsClick}>
@@ -116,7 +116,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                                 initial="hidden"
                                 animate="visible"
                                 variants={fadeInVariants}
-                                transition={{ duration: 0.5, delay: 0.8 }}
+                                transition={{ duration: 0.5, delay: 1 }}
                             >
                                 <Box
                                     component="img"
@@ -129,7 +129,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                                 initial="hidden"
                                 animate="visible"
                                 variants={fadeInVariants}
-                                transition={{ duration: 0.5, delay: 1.0 }} // Add delay for the quote box
+                                transition={{ duration: 0.5, delay: 1.2 }}
                             >
                                 <Box
                                     position="absolute"
