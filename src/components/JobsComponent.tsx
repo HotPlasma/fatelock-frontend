@@ -38,6 +38,7 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
     const jobs = [
         {
             image: BJSSImage,
+            company: 'BJSS',
             title: 'DevOps Engineer & Squad Lead (Current Role)',
             description: 'Consulting as a DevOps Engineer for the NHS Login Platform of over 42 million users. Dockerised code, improved security by adding vulnerability scans to all pipelines, created developer testing infrastructure. Deployed code changes including features to production 8+ times per week and resolved complex issues while on call.',
             liveSite: 'https://www.bjss.com/',
@@ -45,6 +46,7 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
         },
         {
             image: DroplessImage,
+            company: 'Dropless',
             title: 'Lead Cloud Engineer',
             description: 'Moved this scale up company from on-prem to AWS. The final solution included Cloudfront, Cloudformation, ECS, CodePipeline, RGS (postgres), lambdas and cloudwatch.',
             liveSite: 'https://dropless.co.uk/',
@@ -52,6 +54,7 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
         },
         {
             image: SGImage,
+            company: 'SG Digital',
             title: 'Lead Game Developer',
             description: 'Developed Slot Games with Typescript and C++, later took on a more DevOps role using EC2, Jenkins, Linux and windows servers.',
             liveSite: 'https://igaming-demo.lnw.com/checkage',
@@ -79,9 +82,21 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
                                 transition={{ duration: 0.6, delay: index * 0.3 }}
                                 viewport={{ once: true }}
                             >
-                                <Card sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, mb: 4 }}>
-                                    <Box sx={{ flex: '1 1 50%' }}>
+                                <Card sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, mb: 4, position: 'relative' }}>
+                                    <Box sx={{ flex: '1 1 50%', position: 'relative' }}>
                                         <img src={job.image} alt={job.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                        <Box sx={{
+                                            position: 'absolute',
+                                            top: 16,
+                                            left: 16,
+                                            padding: '4px 8px',
+                                            bgcolor: 'rgba(102, 45, 145, 0.7)',
+                                            borderRadius: '4px'
+                                        }}>
+                                            <Typography variant="caption" color="white">
+                                                {job.company}
+                                            </Typography>
+                                        </Box>
                                     </Box>
                                     <CardContent sx={{ flex: '1 1 50%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                         <Typography variant="h5" component="div" gutterBottom>
