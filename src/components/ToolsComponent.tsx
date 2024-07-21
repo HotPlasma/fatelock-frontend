@@ -35,7 +35,7 @@ const technologies = [
     { component: FaDocker, title: 'Docker', color: '#2496ED' },
     { component: FaGitAlt, title: 'Git', color: '#F05032' },
     { component: SiTerraform, title: 'Terraform', color: '#623CE4' },
-    { component: SiPostgresql, title: 'PostgresSQL', color: '#336791' },
+    { component: SiPostgresql, title: 'PostgreSQL', color: '#336791' },
     { component: SiAmazondynamodb, title: 'DynamoDB', color: '#2272ba' },
     { component: SiSplunk, title: 'Splunk', color: '#00b9eb' },
     { component: FaReact, title: 'React', color: '#2595d5' },

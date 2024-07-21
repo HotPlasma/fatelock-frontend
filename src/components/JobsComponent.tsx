@@ -39,7 +39,7 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
         {
             image: BJSSImage,
             title: 'DevOps Engineer & Squad Lead (Current Role)',
-            description: 'Consulting as a DevOps Engineer for the NHS Login Platform of over 42 million users. Dockerised code, improved security by adding vulnerability scans to all pipelines, created developer testing infrastructure. Resolved complex issues while on call.',
+            description: 'Consulting as a DevOps Engineer for the NHS Login Platform of over 42 million users. Dockerised code, improved security by adding vulnerability scans to all pipelines, created developer testing infrastructure. Deployed code changes including features to production 8+ times per week and resolved complex issues while on call.',
             liveSite: 'https://www.bjss.com/',
             checkCode: '#',
         },
