@@ -42,8 +42,12 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleProjectsClick = () => {
+        const offset = 80; // Adjust this value to match the height of your top bar
         if (projectsRef.current) {
-            projectsRef.current.scrollIntoView({ behavior: 'smooth' });
+            window.scrollTo({
+                top: projectsRef.current.offsetTop - offset,
+                behavior: 'smooth',
+            });
         }
     };
 

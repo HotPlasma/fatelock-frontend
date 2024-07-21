@@ -30,22 +30,29 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef }
     setAnchorElNav(null);
   };
 
+  const ScrollOffset = 80; //Size of the navigation bar 
+
+  const scrollToRef = (ref: React.RefObject<HTMLDivElement>) => {
+    if (ref.current) {
+      window.scrollTo({
+        top: ref.current.offsetTop - ScrollOffset,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   const handleHomeClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     handleCloseNavMenu();
   };
 
   const handleExperienceClick = () => {
-    if (toolsRef.current) {
-      toolsRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToRef(toolsRef);
     handleCloseNavMenu();
   };
 
   const handleProjectsClick = () => {
-    if (jobsRef.current) {
-      jobsRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToRef(jobsRef);
     handleCloseNavMenu();
   };
 
