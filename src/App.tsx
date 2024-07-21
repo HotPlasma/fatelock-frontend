@@ -4,6 +4,7 @@ import ResponsiveAppBar from './components/ResponsiveAppBar.tsx';
 import Profile from './components/Profile.tsx';
 import ToolsComponent from './components/ToolsComponent.tsx';
 import JobsComponent from './components/JobsComponent.tsx';
+import AboutMe from './components/AboutMeComponent.tsx';
 import Link from '@mui/material/Link';
 import { Typography, Divider } from '@mui/material';
 import AnimatedCursor from "react-animated-cursor";
@@ -23,6 +24,9 @@ function App() {
       <Divider sx={{ my: 3, bgcolor: 'white', height: '1px' }} />
       <JobsComponent ref={jobsRef} />
       <Divider sx={{ my: 3, bgcolor: 'white', height: '1px' }} />
+      <AboutMe />
+      <Divider sx={{ my: 3, bgcolor: 'white', height: '1px' }} />
+
       <div>
         <Copyright />
       </div>
