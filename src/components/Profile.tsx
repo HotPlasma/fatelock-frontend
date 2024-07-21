@@ -41,9 +41,20 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+    const ScrollOffset = 80; // Adjust as necessary for your AppBar height
+
+    const scrollToRef = (ref: React.RefObject<HTMLDivElement>) => {
+        if (ref.current) {
+            window.scrollTo({
+                top: ref.current.offsetTop - ScrollOffset,
+                behavior: 'smooth',
+            });
+        }
+    };
+
     const handleProjectsClick = () => {
         if (projectsRef.current) {
-            projectsRef.current.scrollIntoView({ behavior: 'smooth' });
+            scrollToRef(projectsRef);
         }
     };
 

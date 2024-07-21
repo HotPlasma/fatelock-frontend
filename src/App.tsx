@@ -6,13 +6,16 @@ import ToolsComponent from './components/ToolsComponent.tsx';
 import JobsComponent from './components/JobsComponent.tsx';
 import AboutMe from './components/AboutMeComponent.tsx';
 import Link from '@mui/material/Link';
-import { Typography, Divider } from '@mui/material';
+import { Typography, Divider, useMediaQuery, useTheme } from '@mui/material';
 import AnimatedCursor from "react-animated-cursor";
 
 function App() {
   const toolsRef = useRef(null);
   const jobsRef = useRef(null);
   const aboutRef = useRef(null);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <>
@@ -31,17 +34,19 @@ function App() {
       <div>
         <Copyright />
       </div>
-      <AnimatedCursor
-        showSystemCursor={true}
-        trailingSpeed={12}
-        innerSize={0}
-        outerSize={20}
-        outerScale={2}
-        outerAlpha={0}
-        outerStyle={{
-          border: '3px solid var(--cursor-color)'
-        }}
-      />
+      {!isMobile && (
+        <AnimatedCursor
+          showSystemCursor={true}
+          trailingSpeed={12}
+          innerSize={0}
+          outerSize={20}
+          outerScale={2}
+          outerAlpha={0}
+          outerStyle={{
+            border: '3px solid var(--cursor-color)'
+          }}
+        />
+      )}
     </>
   )
 }
