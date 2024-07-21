@@ -5,7 +5,7 @@ import ProfileImage from '../assets/images/portrait.jpg';
 import { useInView } from 'react-intersection-observer';
 
 const AboutComponent = forwardRef<HTMLDivElement>((props, ref) => {
-    const { ref: sectionRef } = useInView({
+    const { ref: sectionRef, inView: sectionInView } = useInView({
         triggerOnce: true,
         threshold: 0.3,
     });
@@ -22,9 +22,14 @@ const AboutComponent = forwardRef<HTMLDivElement>((props, ref) => {
         sectionRef(node);
     };
 
-    const fadeInVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0 },
+    const fadeInLeftVariants = {
+        hidden: { opacity: 0, x: -50 },
+        visible: { opacity: 1, x: 0 },
+    };
+
+    const fadeInRightVariants = {
+        hidden: { opacity: 0, x: 50 },
+        visible: { opacity: 1, x: 0 },
     };
 
     const [expanded, setExpanded] = useState(false);
@@ -39,8 +44,8 @@ const AboutComponent = forwardRef<HTMLDivElement>((props, ref) => {
                 <Grid item xs={12} md={6}>
                     <motion.div
                         initial="hidden"
-                        animate="visible"
-                        variants={fadeInVariants}
+                        animate={sectionInView ? "visible" : "hidden"}
+                        variants={fadeInLeftVariants}
                         transition={{ duration: 0.5, delay: 0.2 }}
                     >
                         <Box
@@ -54,8 +59,8 @@ const AboutComponent = forwardRef<HTMLDivElement>((props, ref) => {
                 <Grid item xs={12} md={6}>
                     <motion.div
                         initial="hidden"
-                        animate="visible"
-                        variants={fadeInVariants}
+                        animate={sectionInView ? "visible" : "hidden"}
+                        variants={fadeInRightVariants}
                         transition={{ duration: 0.5, delay: 0.4 }}
                     >
                         <Typography variant="h3" component="h1" gutterBottom>

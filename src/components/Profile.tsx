@@ -42,12 +42,8 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleProjectsClick = () => {
-        const offset = 80; // Adjust this value to match the height of your top bar
         if (projectsRef.current) {
-            window.scrollTo({
-                top: projectsRef.current.offsetTop - offset,
-                behavior: 'smooth',
-            });
+            projectsRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
 
@@ -74,7 +70,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                             transition={{ duration: 0.5, delay: 0.4 }}
                         >
                             <Typography variant="body1" gutterBottom color={'whitesmoke'} sx={{ fontSize: { xs: '0.875rem', sm: '1rem', md: '1.25rem' } }}>
-                                I'm Egor Kharlamov. Experienced and certified AWS and Azure DevOps Consultant Engineer with a background of over 8 years of professional software development experience specialising in cloud infrastructure design, implementation and management.
+                                I'm Egor Kharlamov. Experienced AWS and Azure DevOps Engineer Consultant with a background of over 8 years of professional software development experience specialising in cloud infrastructure design, implementation and management.
                             </Typography>
                         </motion.div>
                         <motion.div
@@ -83,21 +79,17 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                             variants={fadeInVariants}
                             transition={{ duration: 0.5, delay: 0.6 }}
                         >
-                            <Typography variant="body1" gutterBottom color={'whitesmoke'} sx={{ fontSize: { xs: '0.875rem', sm: '1rem', md: '1.25rem' } }}>
-                                And yes I made this website myself.
-                            </Typography>
-                        </motion.div>
-                        <motion.div
-                            initial="hidden"
-                            animate="visible"
-                            variants={fadeInVariants}
-                            transition={{ duration: 0.5, delay: 0.8 }}
-                        >
                             <Box mt={2}>
                                 <Button variant="contained" color="primary" sx={{ mr: 2 }} onClick={handleProjectsClick}>
                                     View Professional Experience
                                 </Button>
-                                <Button variant="outlined" color="primary" href="https://www.linkedin.com/in/egorkha/" target="_blank">
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    sx={{ mt: isMobile ? 1 : 0 }}
+                                    href="https://www.linkedin.com/in/egorkha/"
+                                    target="_blank"
+                                >
                                     Contact on LinkedIn
                                 </Button>
                             </Box>
@@ -116,7 +108,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                                 initial="hidden"
                                 animate="visible"
                                 variants={fadeInVariants}
-                                transition={{ duration: 0.5, delay: 1 }}
+                                transition={{ duration: 0.5, delay: 0.8 }}
                             >
                                 <Box
                                     component="img"
@@ -129,7 +121,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                                 initial="hidden"
                                 animate="visible"
                                 variants={fadeInVariants}
-                                transition={{ duration: 0.5, delay: 1.2 }}
+                                transition={{ duration: 0.5, delay: 1.0 }} // Add delay for the quote box
                             >
                                 <Box
                                     position="absolute"

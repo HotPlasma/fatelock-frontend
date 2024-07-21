@@ -157,10 +157,10 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef, 
             fontSize: { xs: '1rem', md: '1.5rem' },
           }}
         >
-          FateLock
+          FateLock Consulting
         </Typography>
 
-        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: { md: 'flex-end', lg: 'left' } }}>
           {pages.map((page) => (
             <Button
               key={page}
@@ -182,7 +182,7 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef, 
                     handleCloseNavMenu();
                 }
               }}
-              sx={{ my: 2, color: 'white', display: 'block' }}
+              sx={{ my: 2, color: 'white', display: 'block', fontSize: { xs: '0.75rem', sm: '0.875rem', md: '1rem' } }}
             >
               {page}
             </Button>
