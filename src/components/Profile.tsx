@@ -17,7 +17,7 @@ const fadeInVariants = {
 // Icons for the second section
 const icons = [
     { component: BuildIcon, title: 'DevOps Engineer', description: 'I\'m very experienced in working with clients and stakeholders to identify their needs and translate requirements into cloud-based technical solutions, many of which are used by millions daily. I love automating away repetitive work and resolving critical issues causing blockers. It\'s very fulfilling. Even better lets discuss how to catch the problem early in future.' },
-    { component: HttpIcon, title: 'Strong Fullstack Developer', description: 'Problem solver first and foremost. I\'ve fixed everything from android apps to windows servers to smart fridges. But don\'t just take my word for it. I may specalise in the cloud but the doesn\'t mean I can\'t make a react website with the best of them!' },
+    { component: HttpIcon, title: 'Strong Fullstack Developer', description: 'Problem solver first and foremost. I\'ve fixed everything from android apps to windows servers to smart fridges. But don\'t just take my word for it. I may specalise in the cloud but the doesn\'t mean I can\'t make a react website or traceback an error in a language I\'m unfamilar with.' },
     { component: CodeIcon, title: 'Code Ownership Beyond Production', description: 'As a veteran of final line on call - I ensure all production incidents are swiftly actioned following best practices for minimal disruption in a way that will be auditable in future. I have lead investigations into critical tech issues for multinational giants and the UK government, production is safe in my hands.' },
 ];
 
@@ -71,6 +71,16 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                         >
                             <Typography variant="body1" gutterBottom color={'whitesmoke'} sx={{ fontSize: { xs: '0.875rem', sm: '1rem', md: '1.25rem' } }}>
                                 I'm Egor Kharlamov. Experienced AWS and Azure DevOps Engineer Consultant with a background of over 8 years of professional software development experience specialising in cloud infrastructure design, implementation and management.
+                            </Typography>
+                        </motion.div>
+                        <motion.div
+                            initial="hidden"
+                            animate="visible"
+                            variants={fadeInVariants}
+                            transition={{ duration: 0.5, delay: 0.6 }}
+                        >
+                            <Typography variant="body1" gutterBottom color={'whitesmoke'} sx={{ fontSize: { xs: '0.875rem', sm: '1rem', md: '1.25rem' } }}>
+                                And yes I made this website myself.
                             </Typography>
                         </motion.div>
                         <motion.div

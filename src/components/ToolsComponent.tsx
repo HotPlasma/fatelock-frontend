@@ -74,7 +74,7 @@ const ToolsComponent = forwardRef<HTMLDivElement>((props, ref) => {
                         Tools of the Trade
                     </Typography>
                     <Typography variant="body1" gutterBottom color={'whitesmoke'} marginBottom={3}>
-                        These are the cloud providers I frequently work with.
+                        These are the cloud providers I frequently work with
                     </Typography>
                     <Grid container spacing={4} justifyContent="center">
                         {clouds.map((tool, index) => (
