@@ -81,7 +81,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                             transition={{ duration: 0.5, delay: 0.4 }}
                         >
                             <Typography variant="body1" gutterBottom color={'whitesmoke'} sx={{ fontSize: { xs: '0.875rem', sm: '1rem', md: '1.25rem' } }}>
-                                I'm Egor Kharlamov. Experienced AWS and Azure DevOps Engineer Consultant with a background of over 8 years of professional software development experience specialising in cloud infrastructure design, implementation and management.
+                                I'm Egor Kharlamov. Experienced multi-cloud DevOps Engineer Consultant with a background of over 8 years of professional software development experience specialising in cloud infrastructure design, implementation and management.
                             </Typography>
                         </motion.div>
                         <motion.div
