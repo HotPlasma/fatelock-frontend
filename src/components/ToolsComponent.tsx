@@ -75,7 +75,7 @@ const ToolsComponent = forwardRef<HTMLDivElement>((props, ref) => {
                     <Typography variant="h3" component="h2" gutterBottom>
                         Tools of the Trade
                     </Typography>
-                    <Typography variant="body1" gutterBottom color={'whitesmoke'} marginBottom={3}>
+                    <Typography variant="body1" gutterBottom color={'whitesmoke'} marginBottom={2} marginTop={3}>
                         These are the cloud providers I frequently work with
                     </Typography>
                     <Grid container spacing={4} justifyContent="center">
@@ -97,7 +97,7 @@ const ToolsComponent = forwardRef<HTMLDivElement>((props, ref) => {
                             </Grid>
                         ))}
                     </Grid>
-                    <Typography variant="body1" gutterBottom color={'whitesmoke'} marginBottom={3}>
+                    <Typography variant="body1" gutterBottom color={'whitesmoke'} marginBottom={2} marginTop={3}>
                         Programming Languages I have experience with
                     </Typography>
                     <Grid container spacing={4} justifyContent="center">
@@ -119,7 +119,7 @@ const ToolsComponent = forwardRef<HTMLDivElement>((props, ref) => {
                             </Grid>
                         ))}
                     </Grid>
-                    <Typography variant="body1" gutterBottom color={'whitesmoke'} marginBottom={3}>
+                    <Typography variant="body1" gutterBottom color={'whitesmoke'} marginBottom={2} marginTop={3}>
                         Technologies I have used extensively
                     </Typography>
                     <Grid container spacing={4} justifyContent="center">
