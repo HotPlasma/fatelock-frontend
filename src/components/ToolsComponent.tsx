@@ -21,7 +21,7 @@ const clouds = [
 ];
 
 const languages = [
-    { component: FaPython, title: 'Python', color: '#ffdc50' },
+    { component: FaPython, title: 'Python', color: '#e2af49' },
     { component: SiTypescript, title: 'TypeScript', color: '#3178C6' },
     { component: SiJavascript, title: 'JavaScript', color: '#F7DF1E' },
     { component: SiGnubash, title: 'Bash', color: '#ffffff' },
