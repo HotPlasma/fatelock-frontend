@@ -48,7 +48,7 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
             image: DroplessImage,
             company: 'Dropless',
             title: 'Lead Cloud Engineer',
-            description: 'Moved this scale up company from on-prem to AWS. The final solution included Cloudfront, Cloudformation, ECS, CodePipeline, RGS (postgres), lambdas and cloudwatch.',
+            description: 'Moved this scale up company from on-prem to AWS. The final solution included Cloudfront, Cloudformation, ECS, CodePipeline, RDS (postgres), lambdas and cloudwatch.',
             liveSite: 'https://dropless.co.uk/',
             checkCode: '#',
         },
