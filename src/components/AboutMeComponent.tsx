@@ -67,7 +67,7 @@ const AboutComponent = forwardRef<HTMLDivElement>((props, ref) => {
                             About Egor Kharlamov
                         </Typography>
                         <Typography variant="body1" color="whitesmoke" paragraph>
-                            I'm a 28-year-old DevOps Engineer based in Bristol, with a rich background in full-stack development. My journey into DevOps began unexpectedly during my first role as a developer. The servers were frequently down and with the infrastructure team based in America, I was left waiting until 2 PM for them to address the issues.
+                            I'm a DevOps Engineer based in Bristol, with a rich background in full-stack development. My journey into DevOps began unexpectedly during my first role as a developer. The servers were frequently down and with the infrastructure team based in America, I was left waiting until 2 PM for them to address the issues.
                         </Typography>
                         <Typography variant="body1" color="whitesmoke" paragraph>
                             Frustrated by the delays, I requested AWS access to handle the problems myself. This initiative not only resolved our issues more efficiently but also sparked my passion for cloud infrastructure. I quickly became the go-to person for any platform problems and I found immense satisfaction in this role.
