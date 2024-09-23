@@ -6,7 +6,8 @@ import { FaAws, FaMicrosoft, FaPython, FaJava, FaNodeJs, FaDocker, FaGitAlt, FaR
 import { FaGolang } from "react-icons/fa6";
 import {
     SiCplusplus, SiTypescript, SiJavascript, SiTerraform, SiGnubash, SiPostgresql, SiAmazondynamodb,
-    SiSplunk, SiPoetry, SiKubernetes, SiGooglecloud
+    SiSplunk, SiPoetry, SiKubernetes
+    // , SiGooglecloud
 } from 'react-icons/si';
 
 const fadeInVariants = {
@@ -17,7 +18,7 @@ const fadeInVariants = {
 const clouds = [
     { component: FaAws, title: 'AWS', color: '#FF9900' },
     { component: FaMicrosoft, title: 'Azure', color: '#0078D4' },
-    { component: SiGooglecloud, title: 'GCP', color: '#ffffff' }
+    // { component: SiGooglecloud, title: 'GCP', color: '#ffffff' }
 ];
 
 const languages = [
