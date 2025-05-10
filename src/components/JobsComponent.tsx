@@ -5,6 +5,7 @@ import { useInView } from 'react-intersection-observer';
 import SGImage from '../assets/images/SG.jpg';
 import DroplessImage from '../assets/images/dropless.jpg';
 import BJSSImage from '../assets/images/bjss.jpg';
+import Low6Image from '../assets/images/low6.png';
 
 const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
     const { ref: sectionRef } = useInView({
@@ -37,10 +38,18 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
 
     const jobs = [
         {
+            image: Low6Image,
+            company: 'Low6',
+            title: 'Head of Technology (Current Role)',
+            description: 'Low6 is a free-to-play market leader in the iGaming industry. I am responsible for the technology team and the infrastructure that powers the business. Leading a team of 14+ developers, I ensure techical excellence in frontend, backend, mobile and infrastructure.',
+            liveSite: 'https://www.low6.com/',
+            checkCode: '#',
+        },
+        {
             image: BJSSImage,
             company: 'BJSS',
-            title: 'DevOps Engineer & Squad Lead (Current Role)',
-            description: 'Consulting as a DevOps Engineer for the NHS Login Platform of over 42 million users. Dockerised code, improved security by adding vulnerability scans to all pipelines, created developer testing infrastructure. Deployed code changes including features to production 8+ times per week and resolved complex issues while on call.',
+            title: 'DevOps Engineer & Squad Lead',
+            description: 'Consulted as a DevOps Engineer for the NHS Login Platform of over 42 million users. Dockerised code, improved security by adding vulnerability scans to all pipelines, created developer testing infrastructure. Deployed code changes including features to production 8+ times per week and resolved complex issues while on call.',
             liveSite: 'https://www.bjss.com/',
             checkCode: '#',
         },
