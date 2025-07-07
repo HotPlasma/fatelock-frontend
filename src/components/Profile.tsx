@@ -73,7 +73,6 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
     // Use theme and media query hook to detect mobile
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const isTablet = useMediaQuery(theme.breakpoints.down('md'));
 
     // Get directional variants
     const variants = getDirectionalVariants(scrollDirection, isMobile);

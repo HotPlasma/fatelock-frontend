@@ -46,7 +46,6 @@ const ToolsComponent = forwardRef<HTMLDivElement>((props, ref) => {
     // Use theme and media query hook to detect mobile
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const isTablet = useMediaQuery(theme.breakpoints.down('md'));
 
     // Scroll direction detection
     const scrollDirection = useScrollDirection();

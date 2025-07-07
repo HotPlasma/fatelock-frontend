@@ -9,7 +9,6 @@ const AboutComponent = forwardRef<HTMLDivElement>((props, ref) => {
     // Use theme and media query hook to detect mobile
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const isTablet = useMediaQuery(theme.breakpoints.down('md'));
 
     // Scroll direction detection
     const scrollDirection = useScrollDirection();
@@ -40,23 +39,6 @@ const AboutComponent = forwardRef<HTMLDivElement>((props, ref) => {
         hidden: { 
             opacity: 0, 
             x: isMobile ? 0 : (scrollDirection === 'up' ? 30 : -50),
-            y: isMobile ? (scrollDirection === 'up' ? -20 : 20) : 0
-        },
-        visible: { 
-            opacity: 1, 
-            x: 0,
-            y: 0,
-            transition: {
-                duration: isMobile ? 0.4 : 0.6,
-                ease: "easeOut"
-            }
-        },
-    };
-
-    const fadeInRightVariants = {
-        hidden: { 
-            opacity: 0, 
-            x: isMobile ? 0 : (scrollDirection === 'up' ? -30 : 50),
             y: isMobile ? (scrollDirection === 'up' ? -20 : 20) : 0
         },
         visible: { 

@@ -12,7 +12,6 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
     // Use theme and media query hook to detect mobile
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const isTablet = useMediaQuery(theme.breakpoints.down('md'));
 
     // Scroll direction detection
     const scrollDirection = useScrollDirection();
@@ -38,24 +37,6 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
         }
         sectionRef(node);
     };
-
-    // Enhanced animation variants with mobile consideration and scroll direction
-    const fadeInVariants = (direction: string) => ({
-        hidden: {
-            opacity: 0,
-            x: isMobile ? 0 : (scrollDirection === 'up' ? -20 : 20),
-            y: isMobile ? (scrollDirection === 'up' ? -30 : 30) : 0,
-        },
-        visible: {
-            opacity: 1,
-            x: 0,
-            y: 0,
-            transition: {
-                duration: isMobile ? 0.5 : 0.7,
-                ease: "easeOut"
-            }
-        },
-    });
 
     // Title animation
     const titleVariants = {
