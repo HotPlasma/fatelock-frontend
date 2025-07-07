@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Box, Typography, Card, CardContent, Button, Grid, useMediaQuery, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import profileImage from '../assets/images/headphones.jpg';
+import profileImage from '../assets/images/profile.jpg';
 import BuildIcon from '@mui/icons-material/Build';
 import HttpIcon from '@mui/icons-material/Http';
 import CodeIcon from '@mui/icons-material/Code';
@@ -81,7 +81,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                             transition={{ duration: 0.5, delay: 0.4 }}
                         >
                             <Typography variant="body1" gutterBottom color={'whitesmoke'} sx={{ fontSize: { xs: '0.875rem', sm: '1rem', md: '1.25rem' } }}>
-                                I'm Egor Kharlamov. Experienced multi-cloud DevOps Engineer Consultant with a background of over 8 years of professional software development experience specialising in cloud infrastructure design, implementation and management.
+                                I'm Egor Kharlamov. Experienced multi-cloud DevOps Engineer Consultant with a background of over a decade of professional software development experience specialising in cloud infrastructure design, implementation and management.
                             </Typography>
                         </motion.div>
                         <motion.div
@@ -112,6 +112,27 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                                     target="_blank"
                                 >
                                     Contact on LinkedIn
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    sx={{
+                                        mt: 2,
+                                        background: 'linear-gradient(90deg, #a4508b 0%, #5f0a87 100%)',
+                                        color: 'white',
+                                        borderRadius: '8px',
+                                        width: isMobile ? '100%' : 'auto',
+                                        boxShadow: '0 4px 10px 0 rgba(164,80,139,0.2)',
+                                        fontWeight: 500,
+                                        fontSize: { xs: '0.85rem', sm: '1rem' },
+                                        textTransform: 'none',
+                                        '&:hover': {
+                                            background: 'linear-gradient(90deg, #5f0a87 0%, #a4508b 100%)',
+                                        },
+                                    }}
+                                    href="https://glizzy.fatelock.com"
+                                    target="_blank"
+                                >
+                                    CHECK OUT THIS NEW ONLINE PLAYING CARD GAME I MADE
                                 </Button>
                             </Box>
                         </motion.div>
