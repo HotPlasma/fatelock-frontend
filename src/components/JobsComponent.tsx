@@ -1,17 +1,31 @@
 import { forwardRef } from 'react';
-import { Box, Typography, Grid, Button, Card, CardContent } from '@mui/material';
+import { Box, Typography, Grid, Button, Card, CardContent, useMediaQuery, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useScrollDirection } from '../hooks/useScrollDirection';
 import SGImage from '../assets/images/SG.jpg';
 import DroplessImage from '../assets/images/dropless.jpg';
 import BJSSImage from '../assets/images/bjss.jpg';
 import Low6Image from '../assets/images/low6.png';
 
 const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
-    const { ref: sectionRef } = useInView({
-        triggerOnce: true,
-        threshold: 0.3,
+    // Use theme and media query hook to detect mobile
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+
+    // Scroll direction detection
+    const scrollDirection = useScrollDirection();
+
+    // Adaptive intersection observer settings
+    const getInViewOptions = (threshold: number) => ({
+        triggerOnce: false,
+        threshold: isMobile ? Math.max(threshold - 0.1, 0.1) : threshold,
+        rootMargin: isMobile ? '0px 0px -30px 0px' : '0px 0px -60px 0px'
     });
+
+    const { ref: sectionRef, inView: sectionInView } = useInView(getInViewOptions(0.2));
+    const { ref: titleRef, inView: titleInView } = useInView(getInViewOptions(0.3));
 
     // Combine both refs into one
     const combinedRef = (node: HTMLDivElement) => {
@@ -25,16 +39,70 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
         sectionRef(node);
     };
 
+    // Enhanced animation variants with mobile consideration and scroll direction
     const fadeInVariants = (direction: string) => ({
         hidden: {
             opacity: 0,
-            x: direction === 'left' ? -50 : direction === 'right' ? 50 : 0,
+            x: isMobile ? 0 : (scrollDirection === 'up' ? -20 : 20),
+            y: isMobile ? (scrollDirection === 'up' ? -30 : 30) : 0,
         },
         visible: {
             opacity: 1,
             x: 0,
+            y: 0,
+            transition: {
+                duration: isMobile ? 0.5 : 0.7,
+                ease: "easeOut"
+            }
         },
     });
+
+    // Title animation
+    const titleVariants = {
+        hidden: { 
+            opacity: 0, 
+            y: scrollDirection === 'up' ? -20 : 20 
+        },
+        visible: { 
+            opacity: 1, 
+            y: 0,
+            transition: {
+                duration: 0.6,
+                ease: "easeOut"
+            }
+        },
+    };
+
+    // Stagger container for job cards with directional awareness
+    const staggerContainerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: isMobile ? 0.2 : 0.3,
+                delayChildren: 0.1,
+                // Reverse stagger direction when scrolling up
+                staggerDirection: scrollDirection === 'up' ? -1 : 1
+            }
+        }
+    };
+
+    const staggerItemVariants = {
+        hidden: { 
+            opacity: 0, 
+            y: scrollDirection === 'up' ? -30 : 30,
+            x: isMobile ? 0 : (scrollDirection === 'up' ? -15 : 15)
+        },
+        visible: { 
+            opacity: 1, 
+            y: 0,
+            x: 0,
+            transition: {
+                duration: isMobile ? 0.5 : 0.7,
+                ease: "easeOut"
+            }
+        }
+    };
 
     const jobs = [
         {
@@ -73,24 +141,29 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
 
     return (
         <Box mt={4} p={2} textAlign="center" ref={combinedRef} {...props}>
-            <Typography variant="h3" component="h2" gutterBottom>
-                Professional Experience
-            </Typography>
-            <Typography variant="body1" color="whitesmoke" paragraph>
-                Ask me on LinkedIn for a CV with more info on these
-            </Typography>
-            <Grid container spacing={4} justifyContent="center">
-                {jobs.map((job, index) => {
-                    const direction = index % 2 === 0 ? 'left' : 'right';
-                    return (
+            <motion.div
+                ref={titleRef}
+                initial="hidden"
+                animate={titleInView ? "visible" : "hidden"}
+                variants={titleVariants}
+            >
+                <Typography variant="h3" component="h2" gutterBottom>
+                    Professional Experience
+                </Typography>
+                <Typography variant="body1" color="whitesmoke" paragraph>
+                    Ask me on LinkedIn for a CV with more info on these
+                </Typography>
+            </motion.div>
+            
+            <motion.div
+                initial="hidden"
+                animate={sectionInView ? "visible" : "hidden"}
+                variants={staggerContainerVariants}
+            >
+                <Grid container spacing={4} justifyContent="center">
+                    {jobs.map((job, index) => (
                         <Grid item xs={12} md={8} key={index}>
-                            <motion.div
-                                initial="hidden"
-                                whileInView="visible"
-                                variants={fadeInVariants(direction)}
-                                transition={{ duration: 0.6, delay: index * 0.3 }}
-                                viewport={{ once: true }}
-                            >
+                            <motion.div variants={staggerItemVariants}>
                                 <Card sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, mb: 4, position: 'relative' }}>
                                     <Box sx={{ flex: '1 1 50%', position: 'relative' }}>
                                         <img src={job.image} alt={job.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -123,9 +196,9 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
                                 </Card>
                             </motion.div>
                         </Grid>
-                    );
-                })}
-            </Grid>
+                    ))}
+                </Grid>
+            </motion.div>
         </Box>
     );
 });
