@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useMemo, useState } from 'react';
 import {
   Box,
   Typography,
@@ -145,29 +145,45 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
     },
   };
 
-  const staggerContainerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: reducedMotion ? 0 : isMobile ? 0.12 : 0.18,
-        delayChildren: reducedMotion ? 0 : 0.06,
-        staggerDirection: scrollDirection === 'up' ? -1 : 1,
+  const staggerContainerVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: reducedMotion ? 0 : isMobile ? 0.42 : 0.58,
+          delayChildren: reducedMotion ? 0 : 0.2,
+          staggerDirection: scrollDirection === 'up' ? -1 : 1,
+        },
       },
-    },
-  };
+    }),
+    [isMobile, reducedMotion, scrollDirection]
+  );
 
-  const staggerItemVariants = {
-    hidden: {
-      opacity: 0,
-      y: reducedMotion ? 0 : scrollDirection === 'up' ? -22 : 22,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: reducedMotion ? 0 : isMobile ? 0.45 : 0.55, ease: 'easeOut' as const },
-    },
-  };
+  const flyDistance = isMobile ? 56 : 96;
+
+  const jobCardVariants = useMemo(
+    () => ({
+      hidden: (index: number) => {
+        if (reducedMotion) return { opacity: 0, x: 0 };
+        const scrollingUp = scrollDirection === 'up';
+        const fromLeft = scrollingUp ? index % 2 === 1 : index % 2 === 0;
+        return {
+          opacity: 0,
+          x: fromLeft ? -flyDistance : flyDistance,
+        };
+      },
+      visible: (_index: number) => ({
+        opacity: 1,
+        x: 0,
+        transition: {
+          duration: reducedMotion ? 0 : isMobile ? 0.62 : 0.82,
+          ease: 'easeOut' as const,
+        },
+      }),
+    }),
+    [scrollDirection, reducedMotion, isMobile, flyDistance]
+  );
 
   return (
     <Box component="section" id="portfolio" aria-label="Portfolio and professional experience" sx={{ py: { xs: 2, md: 3 } }} ref={combinedRef} {...props}>
@@ -186,7 +202,7 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
         <Grid container spacing={3} justifyContent="center">
           {jobs.map((job, index) => (
             <Grid item xs={12} key={index}>
-              <motion.div variants={staggerItemVariants}>
+              <motion.div custom={index} variants={jobCardVariants}>
                 <Card
                   sx={{
                     overflow: 'hidden',

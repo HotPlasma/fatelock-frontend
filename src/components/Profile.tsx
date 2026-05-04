@@ -171,6 +171,20 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
     [isMobile, reducedMotion]
   );
 
+  const standOutCardsStaggerVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: reducedMotion ? 0 : isMobile ? 0.38 : 0.52,
+          delayChildren: reducedMotion ? 0 : 0.18,
+        },
+      },
+    }),
+    [isMobile, reducedMotion]
+  );
+
   const staggerItemVariants = useMemo(
     () => ({
       hidden: { opacity: 0, y: reducedMotion ? 0 : scrollDirection === 'up' ? -14 : 14 },
@@ -494,7 +508,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
             key={`stand-out-cards-${standOutAnimKey}`}
             initial="hidden"
             animate={standOutEntered ? 'visible' : 'hidden'}
-            variants={staggerContainerVariants}
+            variants={standOutCardsStaggerVariants}
           >
             <Grid container spacing={2} justifyContent="center" alignItems="stretch">
               {valueProps.map((row) => (
