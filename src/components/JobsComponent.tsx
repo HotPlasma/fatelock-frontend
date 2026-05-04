@@ -173,9 +173,6 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
     <Box component="section" id="portfolio" aria-label="Portfolio and professional experience" sx={{ py: { xs: 2, md: 3 } }} ref={combinedRef} {...props}>
       <motion.div ref={titleRef} initial="hidden" animate={titleInView ? 'visible' : 'hidden'} variants={titleVariants}>
         <Box textAlign="center" sx={{ mb: 4 }}>
-          <Typography variant="overline" sx={{ color: 'primary.light', letterSpacing: '0.18em', fontWeight: 700, display: 'block', mb: 1 }}>
-            Selected work
-          </Typography>
           <Typography variant="h2" component="h2" gutterBottom sx={{ fontFamily: '"Syne", sans-serif', fontWeight: 700 }}>
             Portfolio
           </Typography>
