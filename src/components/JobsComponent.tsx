@@ -170,14 +170,17 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
   };
 
   return (
-    <Box component="section" id="experience" aria-label="Professional experience" sx={{ py: 1 }} ref={combinedRef} {...props}>
+    <Box component="section" id="portfolio" aria-label="Portfolio and professional experience" sx={{ py: { xs: 2, md: 3 } }} ref={combinedRef} {...props}>
       <motion.div ref={titleRef} initial="hidden" animate={titleInView ? 'visible' : 'hidden'} variants={titleVariants}>
-        <Box textAlign="center" sx={{ mb: 3 }}>
-          <Typography variant="h2" component="h2" gutterBottom>
-            Experience
+        <Box textAlign="center" sx={{ mb: 4 }}>
+          <Typography variant="overline" sx={{ color: 'primary.light', letterSpacing: '0.18em', fontWeight: 700, display: 'block', mb: 1 }}>
+            Selected work
+          </Typography>
+          <Typography variant="h2" component="h2" gutterBottom sx={{ fontFamily: '"Syne", sans-serif', fontWeight: 700 }}>
+            Portfolio
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 560, mx: 'auto' }}>
-            Highlights aligned to my latest CV. Ask on LinkedIn for the full document.
+            Roles and delivery highlights from NHS-scale platforms to high-traffic consumer products. Full CV on request via LinkedIn.
           </Typography>
         </Box>
       </motion.div>

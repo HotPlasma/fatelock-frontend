@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Box,
   Typography,
@@ -10,9 +10,11 @@ import {
   Link,
   Card,
   CardContent,
+  IconButton,
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import { useScrollDirection } from '../hooks/useScrollDirection';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import profileImage from '../assets/images/profile.jpg';
@@ -65,8 +67,31 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
 
   const { ref: heroTextRef, inView: heroTextInView } = useInView(getInViewOptions(0.15));
   const { ref: heroImageRef, inView: heroImageInView } = useInView(getInViewOptions(0.15));
-  const { ref: sectionTitleRef, inView: sectionTitleInView } = useInView(getInViewOptions(0.25));
-  const { ref: iconsRef, inView: iconsInView } = useInView(getInViewOptions(0.15));
+
+  const [standOutEntered, setStandOutEntered] = useState(false);
+  const { ref: standOutInViewRef, inView: standOutInView } = useInView({
+    threshold: 0.08,
+    rootMargin: '0px 0px -12% 0px',
+    triggerOnce: false,
+  });
+
+  useEffect(() => {
+    if (standOutInView) setStandOutEntered(true);
+  }, [standOutInView]);
+
+  const showScrollHint = !standOutInView;
+
+  const scrollToStandOut = useCallback(() => {
+    const el = document.getElementById('differentiators');
+    el?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+  }, [reducedMotion]);
+
+  const setStandOutSectionRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      standOutInViewRef(node);
+    },
+    [standOutInViewRef]
+  );
 
   const scrollToRef = (ref: React.RefObject<HTMLDivElement>) => {
     if (ref.current) {
@@ -119,6 +144,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
   );
 
   return (
+    <>
     <Box
       component="section"
       id="home"
@@ -126,9 +152,12 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
       sx={{
         position: 'relative',
         overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: { xs: 'calc(100dvh - 88px)', sm: 'calc(100dvh - 92px)', md: 'calc(100dvh - 96px)' },
         pt: { xs: 2, md: 3 },
         pb: { xs: 6, md: 8 },
-        mb: { xs: 2, md: 4 },
+        mb: { xs: 2, md: 3 },
         borderRadius: { xs: 0, md: 4 },
         border: { xs: 'none', md: '1px solid rgba(255,255,255,0.06)' },
         backgroundColor: 'background.paper',
@@ -139,8 +168,8 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
         ].join(', '),
       }}
     >
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-        <Grid container spacing={{ xs: 3, md: 4 }} alignItems="center">
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <Grid container spacing={{ xs: 3, md: 4 }} alignItems="center" sx={{ flex: 1 }}>
           <Grid item xs={12} md={6} sx={{ pt: { xs: 6, md: 2 } }} ref={heroTextRef}>
             <motion.div
               initial="hidden"
@@ -152,7 +181,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                   variant="overline"
                   sx={{ color: 'primary.light', letterSpacing: '0.2em', fontWeight: 700 }}
                 >
-                  Portfolio
+                  Technology leadership
                 </Typography>
               </motion.div>
               <motion.div variants={staggerItemVariants}>
@@ -192,7 +221,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
               <motion.div variants={staggerItemVariants}>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, alignItems: 'center' }}>
                   <Button variant="contained" color="primary" onClick={() => scrollToRef(projectsRef)}>
-                    View experience
+                    View portfolio
                   </Button>
                   <Button
                     variant="outlined"
@@ -219,48 +248,198 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
             </motion.div>
           </Grid>
 
-          <Grid item xs={12} md={6} ref={heroImageRef}>
+          <Grid item xs={12} md={6} ref={heroImageRef} sx={{ pb: { xs: 12, md: 10 } }}>
             <Box
               sx={{
                 position: 'relative',
-                borderRadius: 4,
-                overflow: 'hidden',
-                border: '1px solid rgba(255,255,255,0.08)',
-                boxShadow: '0 24px 80px rgba(0,0,0,0.45)',
+                display: 'flex',
+                justifyContent: 'center',
+                pt: { xs: 0, md: 1 },
+                pb: { xs: 2, md: 3 },
               }}
             >
-              <motion.div initial="hidden" animate={heroImageInView ? 'visible' : 'hidden'} variants={fadeInVariants}>
-                <Box
-                  component="img"
-                  src={profileImage}
-                  alt="Egor Kharlamov"
-                  sx={{ width: '100%', height: 'auto', display: 'block' }}
-                />
-              </motion.div>
+              <Box
+                sx={{
+                  position: 'relative',
+                  width: '100%',
+                  maxWidth: { xs: 420, md: '100%' },
+                  mx: 'auto',
+                  aspectRatio: { xs: '4 / 5', md: '1 / 1.08' },
+                  borderRadius: '50% / 44%',
+                  overflow: 'hidden',
+                  border: '2px solid rgba(167, 139, 250, 0.35)',
+                  boxShadow: [
+                    '0 28px 90px rgba(0,0,0,0.5)',
+                    '0 0 0 1px rgba(255,255,255,0.06) inset',
+                    '0 0 48px rgba(139, 92, 246, 0.18)',
+                  ].join(', '),
+                  background: 'linear-gradient(160deg, rgba(167,139,250,0.12), rgba(6,182,212,0.06))',
+                }}
+              >
+                <motion.div
+                  initial="hidden"
+                  animate={heroImageInView ? 'visible' : 'hidden'}
+                  variants={fadeInVariants}
+                  style={{ width: '100%', height: '100%' }}
+                >
+                  <Box
+                    component="img"
+                    src={profileImage}
+                    alt="Egor Kharlamov"
+                    sx={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: '50% 15%',
+                      display: 'block',
+                    }}
+                  />
+                </motion.div>
+              </Box>
               <Box
                 sx={{
                   position: 'absolute',
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  p: 1.5,
-                  background: 'linear-gradient(to top, rgba(10,10,15,0.92), transparent)',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  bottom: { xs: -8, md: -4 },
+                  width: 'min(100%, 440px)',
+                  px: 2,
+                  py: 2,
+                  borderRadius: 2,
+                  border: '1px solid rgba(167, 139, 250, 0.28)',
+                  background: 'linear-gradient(125deg, rgba(10,10,18,0.92) 0%, rgba(22,18,40,0.88) 100%)',
+                  backdropFilter: 'blur(12px)',
+                  boxShadow: '0 16px 40px rgba(0,0,0,0.35)',
                 }}
               >
-                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.85)', fontStyle: 'italic' }}>
-                  &ldquo;Whoever desires constant success must change his conduct with the times.&rdquo; — Niccolò
-                  Machiavelli
+                <Typography
+                  component="blockquote"
+                  sx={{
+                    m: 0,
+                    pl: 2,
+                    borderLeft: '3px solid',
+                    borderColor: 'primary.light',
+                    fontFamily: '"Syne", Georgia, serif',
+                    fontSize: { xs: '0.95rem', sm: '1.05rem' },
+                    fontWeight: 600,
+                    fontStyle: 'italic',
+                    lineHeight: 1.45,
+                    letterSpacing: '-0.01em',
+                    color: '#f5f3ff',
+                    textShadow: '0 1px 18px rgba(0,0,0,0.45)',
+                  }}
+                >
+                  <Box component="span" sx={{ color: 'primary.light', fontSize: '1.35em', lineHeight: 0, mr: 0.35, verticalAlign: '-0.08em' }}>
+                    &ldquo;
+                  </Box>
+                  Whoever desires constant success must change his conduct with the times.
+                  <Box component="span" sx={{ color: 'primary.light', fontSize: '1.35em', lineHeight: 0, ml: 0.25, verticalAlign: '-0.08em' }}>
+                    &rdquo;
+                  </Box>
+                  <Typography
+                    component="cite"
+                    variant="body2"
+                    sx={{
+                      display: 'block',
+                      mt: 1.25,
+                      fontStyle: 'normal',
+                      fontWeight: 500,
+                      fontFamily: '"Inter", sans-serif',
+                      color: 'rgba(224, 231, 255, 0.72)',
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                      fontSize: '0.7rem',
+                    }}
+                  >
+                    — Niccolò Machiavelli
+                  </Typography>
                 </Typography>
               </Box>
             </Box>
           </Grid>
         </Grid>
 
-        <Box sx={{ mt: { xs: 6, md: 8 } }} textAlign="center">
+        <Box
+          sx={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: { xs: 16, md: 20 },
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 0.5,
+            pointerEvents: 'none',
+            zIndex: 2,
+            opacity: showScrollHint ? 1 : 0,
+            transform: showScrollHint ? 'translateY(0)' : 'translateY(8px)',
+            transition: 'opacity 0.35s ease, transform 0.35s ease',
+          }}
+          aria-hidden={!showScrollHint}
+        >
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'text.secondary',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              fontWeight: 600,
+              pointerEvents: 'none',
+            }}
+          >
+            Scroll
+          </Typography>
+          <IconButton
+            onClick={scrollToStandOut}
+            aria-label="Scroll to How I stand out"
+            tabIndex={showScrollHint ? 0 : -1}
+            sx={{
+              pointerEvents: 'auto',
+              color: 'primary.light',
+              border: '1px solid rgba(167, 139, 250, 0.35)',
+              bgcolor: 'rgba(10, 10, 15, 0.45)',
+              backdropFilter: 'blur(8px)',
+              '&:hover': { bgcolor: 'rgba(167, 139, 250, 0.12)', borderColor: 'primary.light' },
+            }}
+          >
+            <motion.span
+              animate={
+                reducedMotion || !showScrollHint
+                  ? {}
+                  : { y: [0, 6, 0], opacity: [0.85, 1, 0.85] }
+              }
+              transition={{ duration: 1.35, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
+              <KeyboardDoubleArrowDownIcon sx={{ fontSize: 28 }} />
+            </motion.span>
+          </IconButton>
+        </Box>
+      </Container>
+    </Box>
+
+    <Box
+      component="section"
+      id="differentiators"
+      ref={setStandOutSectionRef}
+      aria-label="How I stand out"
+      sx={{
+        position: 'relative',
+        overflow: 'hidden',
+        py: { xs: 5, md: 6 },
+        mb: { xs: 2, md: 3 },
+        borderRadius: { xs: 0, md: 4 },
+        border: { xs: 'none', md: '1px solid rgba(255,255,255,0.06)' },
+        backgroundColor: 'background.default',
+        backgroundImage:
+          'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(167, 139, 250, 0.08), transparent 55%)',
+      }}
+    >
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+        <Box textAlign="center">
           <motion.div
-            ref={sectionTitleRef}
             initial="hidden"
-            animate={sectionTitleInView ? 'visible' : 'hidden'}
+            animate={standOutEntered ? 'visible' : 'hidden'}
             variants={fadeInVariants}
           >
             <Typography variant="h2" component="h2" gutterBottom>
@@ -272,18 +451,19 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
           </motion.div>
 
           <motion.div
-            ref={iconsRef}
             initial="hidden"
-            animate={iconsInView ? 'visible' : 'hidden'}
+            animate={standOutEntered ? 'visible' : 'hidden'}
             variants={staggerContainerVariants}
           >
-            <Grid container spacing={2} justifyContent="center">
+            <Grid container spacing={2} justifyContent="center" alignItems="stretch">
               {valueProps.map((row) => (
-                <Grid item xs={12} sm={6} md={4} key={row.title}>
-                  <motion.div variants={staggerItemVariants}>
+                <Grid item xs={12} sm={4} key={row.title} sx={{ display: 'flex' }}>
+                  <motion.div variants={staggerItemVariants} style={{ width: '100%', display: 'flex' }}>
                     <Card
                       sx={{
-                        height: '100%',
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
                         textAlign: 'left',
                         transition: 'transform 0.2s ease, border-color 0.2s ease',
                         '&:hover': reducedMotion
@@ -291,12 +471,19 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                           : { transform: 'translateY(-4px)', borderColor: 'rgba(167, 139, 250, 0.35)' },
                       }}
                     >
-                      <CardContent sx={{ p: 2.5 }}>
-                        <row.icon sx={{ fontSize: 36, color: 'primary.main', mb: 1.5 }} />
-                        <Typography variant="h6" component="h3" gutterBottom>
+                      <CardContent
+                        sx={{
+                          p: 2.5,
+                          flex: 1,
+                          display: 'flex',
+                          flexDirection: 'column',
+                        }}
+                      >
+                        <row.icon sx={{ fontSize: 36, color: 'primary.main', mb: 1.5, flexShrink: 0 }} />
+                        <Typography variant="h6" component="h3" gutterBottom sx={{ flexShrink: 0 }}>
                           {row.title}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.secondary" sx={{ flex: 1 }}>
                           {row.description}
                         </Typography>
                       </CardContent>
@@ -309,6 +496,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
         </Box>
       </Container>
     </Box>
+    </>
   );
 };
 

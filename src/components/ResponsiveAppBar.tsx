@@ -4,24 +4,21 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
 import MenuIcon from '@mui/icons-material/Menu';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { motion } from 'framer-motion';
 import LogoIcon from '../assets/images/logo.png';
-import EgorIcon from '../assets/images/sunglasses.jpg';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 
-type NavKey = 'home' | 'skills' | 'experience' | 'about';
+type NavKey = 'home' | 'skills' | 'portfolio' | 'about';
 
 const navItems: { key: NavKey; label: string }[] = [
   { key: 'home', label: 'Home' },
   { key: 'skills', label: 'Skills' },
-  { key: 'experience', label: 'Experience' },
+  { key: 'portfolio', label: 'Portfolio' },
   { key: 'about', label: 'About' },
 ];
 
@@ -71,7 +68,7 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef, 
       case 'skills':
         scrollToRef(toolsRef);
         break;
-      case 'experience':
+      case 'portfolio':
         scrollToRef(jobsRef);
         break;
       case 'about':
@@ -128,7 +125,7 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef, 
             />
           </motion.div>
 
-          <Box sx={{ flexGrow: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <Box sx={{ flexGrow: 1, minWidth: 0, display: 'flex', alignItems: 'center' }}>
             <motion.div variants={itemVariants}>
               <Typography
                 variant="subtitle1"
@@ -136,12 +133,13 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef, 
                 type="button"
                 onClick={() => go('home')}
                 sx={{
+                  fontFamily: '"Syne", sans-serif',
                   fontWeight: 700,
                   letterSpacing: '-0.02em',
                   color: 'text.primary',
                   textDecoration: 'none',
                   lineHeight: 1.2,
-                  fontSize: { xs: '0.95rem', sm: '1.05rem' },
+                  fontSize: { xs: '1rem', sm: '1.125rem' },
                   background: 'none',
                   border: 0,
                   cursor: 'pointer',
@@ -149,30 +147,8 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef, 
                   textAlign: 'left',
                 }}
               >
-                Egor Kharlamov
+                FateLock Consulting
               </Typography>
-            </motion.div>
-            <motion.div variants={itemVariants}>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 0.5, mt: 0.25 }}>
-                <Chip
-                  size="small"
-                  label="Head of Technology · Low6"
-                  sx={{
-                    height: 22,
-                    fontSize: '0.7rem',
-                    fontWeight: 600,
-                    bgcolor: 'rgba(167, 139, 250, 0.12)',
-                    color: 'primary.light',
-                    border: '1px solid rgba(167, 139, 250, 0.25)',
-                  }}
-                />
-                <Typography
-                  variant="caption"
-                  sx={{ display: { xs: 'none', sm: 'inline' }, color: 'text.secondary', ml: 0.5 }}
-                >
-                  via FateLock Consulting
-                </Typography>
-              </Box>
             </motion.div>
           </Box>
 
@@ -226,12 +202,6 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef, 
               ))}
             </Menu>
           </Box>
-
-          <motion.div variants={itemVariants}>
-            <IconButton sx={{ p: 0, ml: { xs: 0.5, md: 1 } }} onClick={() => go('home')} aria-label="Home">
-              <Avatar alt="Egor Kharlamov" src={EgorIcon} sx={{ width: 40, height: 40, border: '1px solid rgba(255,255,255,0.12)' }} />
-            </IconButton>
-          </motion.div>
         </Toolbar>
       </AppBar>
     </motion.div>

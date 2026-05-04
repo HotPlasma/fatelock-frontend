@@ -159,11 +159,11 @@ const ToolsComponent = forwardRef<HTMLDivElement>((props, ref) => {
     >
       <motion.div initial="hidden" animate={rootInView ? 'visible' : 'hidden'} variants={titleVariants}>
         <Card sx={{ mb: 3, textAlign: 'center', py: { xs: 2, md: 3 }, px: 2 }}>
-          <Typography variant="h2" component="h2" gutterBottom>
-            Skills & stack
+          <Typography variant="h2" component="h2" gutterBottom sx={{ fontFamily: '"Syne", sans-serif', fontWeight: 700 }}>
+            Tools of the trade
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 560, mx: 'auto' }}>
-            Cloud platforms, languages, and tools I use to ship secure, observable systems at scale.
+            Cloud platforms, languages, and day-to-day stack I use to ship secure, observable systems at scale.
           </Typography>
         </Card>
       </motion.div>

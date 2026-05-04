@@ -1,7 +1,7 @@
 import { useState, forwardRef, useMemo } from 'react';
 import { Box, Typography, Grid, Button, Collapse, useMediaQuery, useTheme, Card, CardContent } from '@mui/material';
 import { motion } from 'framer-motion';
-import ProfileImage from '../assets/images/portrait.jpg';
+import ProfileImage from '../assets/images/sunglasses.jpg';
 import { useInView } from 'react-intersection-observer';
 import { useScrollDirection } from '../hooks/useScrollDirection';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
@@ -95,6 +95,7 @@ const AboutComponent = forwardRef<HTMLDivElement>((props, ref) => {
                   height: { xs: 'auto', md: '100%' },
                   minHeight: { md: 420 },
                   objectFit: 'cover',
+                  objectPosition: '50% 25%',
                   display: 'block',
                 }}
               />
