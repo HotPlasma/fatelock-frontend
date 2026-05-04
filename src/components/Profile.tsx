@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Box,
   Typography,
@@ -19,27 +19,27 @@ import { useScrollDirection } from '../hooks/useScrollDirection';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import profileImage from '../assets/images/profile.jpg';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
-import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
-import AutoGraphOutlinedIcon from '@mui/icons-material/AutoGraphOutlined';
+import CloudOutlinedIcon from '@mui/icons-material/CloudOutlined';
+import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
 
 const valueProps = [
   {
+    icon: CloudOutlinedIcon,
+    title: 'DevOps & Infrastructure',
+    description:
+      "I'm very experienced in working with clients and stakeholders to identify their needs and translate requirements into cloud-based technical solutions, many of which are used by millions daily. I love automating away repetitive work and resolving critical issues causing blockers. It's very fulfilling. Even better lets discuss how to catch the problem early in future.",
+  },
+  {
+    icon: LayersOutlinedIcon,
+    title: 'Strong Fullstack Developer',
+    description:
+      "Problem solver first and foremost. I've fixed everything from android apps to windows servers to smart fridges. But don't just take my word for it. I may specalise in the cloud but that doesn't mean I can't make a react website or traceback an error in a language I'm unfamilar with.",
+  },
+  {
     icon: GroupsOutlinedIcon,
-    title: 'Team player',
+    title: 'Team Player',
     description:
-      'I thrive in diverse technical environments — delegating effectively while staying ready to dive in personally when it matters.',
-  },
-  {
-    icon: SupportAgentOutlinedIcon,
-    title: 'Knowledgeable & approachable',
-    description:
-      'I have managed multiple technical teams successfully through bespoke support, regular 1:1s, and clear expectations.',
-  },
-  {
-    icon: AutoGraphOutlinedIcon,
-    title: 'Always steering improvement',
-    description:
-      'I identify pain points, automate them away, and improve team morale and output over time with measurable engineering practices.',
+      "I thrive in diverse technical environments — while I delegate effectively, I’m always ready to dive in personally when needed. Point me at a task and we’ll get it done. I will happily organise knowledge sharing sessions and train the team to avoid dependencies on myself. I'll also admit my weaknesses and ask questions when I don't know.",
   },
 ];
 
@@ -69,15 +69,55 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
   const { ref: heroImageRef, inView: heroImageInView } = useInView(getInViewOptions(0.15));
 
   const [standOutEntered, setStandOutEntered] = useState(false);
+  const [standOutAnimKey, setStandOutAnimKey] = useState(0);
+  const standOutEnteredPrev = useRef(false);
   const { ref: standOutInViewRef, inView: standOutInView } = useInView({
     threshold: 0.08,
     rootMargin: '0px 0px -12% 0px',
     triggerOnce: false,
   });
+  const standOutInViewLive = useRef(standOutInView);
+  standOutInViewLive.current = standOutInView;
 
   useEffect(() => {
     if (standOutInView) setStandOutEntered(true);
   }, [standOutInView]);
+
+  useEffect(() => {
+    if (standOutEnteredPrev.current && !standOutEntered) {
+      setStandOutAnimKey((k) => k + 1);
+    }
+    standOutEnteredPrev.current = standOutEntered;
+  }, [standOutEntered]);
+
+  useEffect(() => {
+    const maybeUnloadStandOut = () => {
+      if (standOutInViewLive.current) return;
+
+      const home = document.getElementById('home');
+      const stand = document.getElementById('differentiators');
+      if (!home || !stand) return;
+
+      const scrollY = window.scrollY;
+      const standTop = stand.getBoundingClientRect().top;
+      const vh = window.innerHeight;
+      const homeHeight = home.offsetHeight;
+      const backAtHero =
+        scrollY <= homeHeight * 0.34 && standTop > vh * 0.26;
+
+      if (backAtHero) {
+        setStandOutEntered(false);
+      }
+    };
+
+    window.addEventListener('scroll', maybeUnloadStandOut, { passive: true });
+    window.addEventListener('resize', maybeUnloadStandOut);
+    maybeUnloadStandOut();
+    return () => {
+      window.removeEventListener('scroll', maybeUnloadStandOut);
+      window.removeEventListener('resize', maybeUnloadStandOut);
+    };
+  }, []);
 
   const showScrollHint = !standOutInView;
 
@@ -181,7 +221,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
                   variant="overline"
                   sx={{ color: 'primary.light', letterSpacing: '0.2em', fontWeight: 700 }}
                 >
-                  Technology leadership
+                  Hello there, I'm
                 </Typography>
               </motion.div>
               <motion.div variants={staggerItemVariants}>
@@ -203,19 +243,18 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
               </motion.div>
               <motion.div variants={staggerItemVariants}>
                 <Typography variant="h5" component="p" color="text.secondary" sx={{ fontWeight: 500, mb: 2 }}>
-                  Proven tech leader and experienced lead DevOps engineer with a decade of full-stack programming
-                  expertise.
+                  Proven tech leader and experienced infrastructure specalist with a decade of {'full\u2011stack'}{' '}
+                  programming expertise.
                 </Typography>
               </motion.div>
               <motion.div variants={staggerItemVariants}>
                 <Typography variant="body1" color="text.secondary" sx={{ mb: 2, maxWidth: 520 }}>
-                  I direct technology strategy and delivery with a focus on cloud architecture, reliability, and teams
-                  that ship — from NHS-scale platforms to high-traffic consumer experiences.
+                  I build and direct teams which focus on delivery of reliable, scalable and secure cloud architecture.
                 </Typography>
               </motion.div>
               <motion.div variants={staggerItemVariants}>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  This site is hand-built in React — no template.
+                  Unlike many technology leaders - I'm still hands-on with the code. This site is hand-built.
                 </Typography>
               </motion.div>
               <motion.div variants={staggerItemVariants}>
@@ -438,6 +477,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
         <Box textAlign="center">
           <motion.div
+            key={`stand-out-title-${standOutAnimKey}`}
             initial="hidden"
             animate={standOutEntered ? 'visible' : 'hidden'}
             variants={fadeInVariants}
@@ -451,6 +491,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
           </motion.div>
 
           <motion.div
+            key={`stand-out-cards-${standOutAnimKey}`}
             initial="hidden"
             animate={standOutEntered ? 'visible' : 'hidden'}
             variants={staggerContainerVariants}

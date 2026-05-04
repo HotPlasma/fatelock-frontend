@@ -73,7 +73,6 @@ function Copyright() {
       </Link>
       {' · '}
       {new Date().getFullYear()}
-      {'. Personal site of Egor Kharlamov.'}
     </Typography>
   );
 }
