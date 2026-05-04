@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { motion } from 'framer-motion';
 import LogoIcon from '../assets/images/logo.png';
-import EgorIcon from '../assets/images/sunglasses.jpg';
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 
-const pages = ['Profile', 'My Skillset', 'Professional Experience', 'About'];
+type NavKey = 'home' | 'skills' | 'portfolio' | 'about';
+
+const navItems: { key: NavKey; label: string }[] = [
+  { key: 'home', label: 'Home' },
+  { key: 'skills', label: 'Skills' },
+  { key: 'portfolio', label: 'Portfolio' },
+  { key: 'about', label: 'About' },
+];
 
 interface ResponsiveAppBarProps {
   toolsRef: React.RefObject<HTMLDivElement>;
@@ -21,8 +28,19 @@ interface ResponsiveAppBarProps {
   aboutRef: React.RefObject<HTMLDivElement>;
 }
 
+const SCROLL_OFFSET = 80;
+
 const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef, aboutRef }) => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const reducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -32,222 +50,162 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({ toolsRef, jobsRef, 
     setAnchorElNav(null);
   };
 
-  const ScrollOffset = 80; // Adjust as necessary for your AppBar height
-
-  const scrollToRef = (ref: React.RefObject<HTMLDivElement>) => {
-    if (ref.current) {
+  const scrollToRef = (r: React.RefObject<HTMLDivElement>) => {
+    if (r.current) {
       window.scrollTo({
-        top: ref.current.offsetTop - ScrollOffset,
-        behavior: 'smooth',
+        top: r.current.offsetTop - SCROLL_OFFSET,
+        behavior: reducedMotion ? 'auto' : 'smooth',
       });
     }
   };
 
-  const handleHomeClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const go = (key: NavKey) => {
     handleCloseNavMenu();
+    switch (key) {
+      case 'home':
+        window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+        break;
+      case 'skills':
+        scrollToRef(toolsRef);
+        break;
+      case 'portfolio':
+        scrollToRef(jobsRef);
+        break;
+      case 'about':
+        scrollToRef(aboutRef);
+        break;
+      default:
+        break;
+    }
   };
 
-  const handleExperienceClick = () => {
-    scrollToRef(toolsRef);
-    handleCloseNavMenu();
-  };
-
-  const handleProjectsClick = () => {
-    scrollToRef(jobsRef);
-    handleCloseNavMenu();
-  };
-
-  const handleAboutClick = () => {
-    scrollToRef(aboutRef);
-    handleCloseNavMenu();
-  };
-
-  // Animation variants for the app bar
   const appBarVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: -80
-    },
-    visible: { 
-      opacity: 1, 
+    hidden: { opacity: reducedMotion ? 1 : 0, y: reducedMotion ? 0 : -24 },
+    visible: {
+      opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
-        ease: "easeOut",
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
+        duration: reducedMotion ? 0 : 0.45,
+        ease: 'easeOut' as const,
+        staggerChildren: reducedMotion ? 0 : 0.06,
+        delayChildren: reducedMotion ? 0 : 0.08,
+      },
+    },
   };
 
   const itemVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: -20 
-    },
-    visible: { 
-      opacity: 1, 
+    hidden: { opacity: reducedMotion ? 1 : 0, y: reducedMotion ? 0 : -12 },
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.4,
-        ease: "easeOut"
-      }
-    }
+      transition: { duration: reducedMotion ? 0 : 0.35, ease: 'easeOut' as const },
+    },
   };
 
   return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={appBarVariants}
-    >
-      <AppBar position="fixed" sx={{ width: '100%', top: 0, bgcolor: '#242424', zIndex: 1 }}>
-        <Toolbar>
+    <motion.div initial="hidden" animate="visible" variants={appBarVariants}>
+      <AppBar
+        position="fixed"
+        sx={{
+          width: '100%',
+          top: 0,
+          zIndex: (t) => t.zIndex.drawer + 1,
+          bgcolor: scrolled ? 'rgba(10, 10, 15, 0.82)' : 'rgba(10, 10, 15, 0.55)',
+          transition: 'background-color 0.25s ease',
+        }}
+      >
+        <Toolbar sx={{ maxWidth: 1280, width: '100%', mx: 'auto', px: { xs: 1.5, sm: 2 }, gap: 1, color: 'text.primary' }}>
           <motion.div variants={itemVariants}>
             <Box
               component="img"
               src={LogoIcon}
+              alt="FateLock"
               className="logo"
-              sx={{ display: { xs: 'none', sm: 'flex' }, mr: 1, maxHeight: { xs: 50, md: 75 } }}
+              sx={{ display: { xs: 'none', md: 'block' }, height: 40, width: 'auto', mr: 1, opacity: 0.9 }}
             />
           </motion.div>
-          <motion.div variants={itemVariants}>
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              sx={{
-                mr: 2,
-                display: { xs: 'none', sm: 'flex' },
-                fontFamily: 'Inter',
-                fontWeight: 700,
-                letterSpacing: '.1rem',
-                color: 'inherit',
-                textDecoration: 'none',
-                fontSize: { xs: '1rem', md: '1.5rem' },
-              }}
-            >
-              FateLock Consulting
-            </Typography>
-          </motion.div>
 
-          {/* Mobile Menu Icon */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, minWidth: 0, display: 'flex', alignItems: 'center' }}>
             <motion.div variants={itemVariants}>
-              <IconButton
-                size="large"
-                color="inherit"
-                onClick={handleOpenNavMenu}
+              <Typography
+                variant="subtitle1"
+                component="button"
+                type="button"
+                onClick={() => go('home')}
+                sx={{
+                  fontFamily: '"Syne", sans-serif',
+                  fontWeight: 700,
+                  letterSpacing: '-0.02em',
+                  color: 'text.primary',
+                  textDecoration: 'none',
+                  lineHeight: 1.2,
+                  fontSize: { xs: '1rem', sm: '1.125rem' },
+                  background: 'none',
+                  border: 0,
+                  cursor: 'pointer',
+                  p: 0,
+                  textAlign: 'left',
+                }}
               >
-                <MenuIcon />
-              </IconButton>
+                FateLock Consulting
+              </Typography>
             </motion.div>
+          </Box>
+
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 0.5 }}>
+            {navItems.map((item) => (
+              <motion.div key={item.key} variants={itemVariants}>
+                <Button color="inherit" onClick={() => go(item.key)} sx={{ color: 'text.primary', px: 1.25 }}>
+                  {item.label}
+                </Button>
+              </motion.div>
+            ))}
+            <IconButton
+              component="a"
+              href="https://www.linkedin.com/in/egorkha/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              sx={{ color: 'primary.light', ml: 0.5 }}
+            >
+              <LinkedInIcon />
+            </IconButton>
+          </Box>
+
+          <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 0.5 }}>
+            <IconButton
+              component="a"
+              href="https://www.linkedin.com/in/egorkha/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              size="large"
+              sx={{ color: 'primary.light' }}
+            >
+              <LinkedInIcon />
+            </IconButton>
+            <IconButton size="large" color="inherit" onClick={handleOpenNavMenu} aria-label="menu">
+              <MenuIcon />
+            </IconButton>
             <Menu
-              id="menu-appbar"
               anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
+              keepMounted
             >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  onClick={() => {
-                    switch (page) {
-                      case 'Profile':
-                        handleHomeClick();
-                        break;
-                      case 'My Skillset':
-                        handleExperienceClick();
-                        break;
-                      case 'Professional Experience':
-                        handleProjectsClick();
-                        break;
-                      case 'About':
-                        handleAboutClick();
-                        break;
-                      default:
-                        handleCloseNavMenu();
-                    }
-                  }}
-                >
-                  <Typography textAlign="center">{page}</Typography>
+              {navItems.map((item) => (
+                <MenuItem key={item.key} onClick={() => go(item.key)}>
+                  <Typography textAlign="center">{item.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-
-          <motion.div variants={itemVariants}>
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              sx={{
-                display: { xs: 'flex', sm: 'none' },
-                flexGrow: 1,
-                fontFamily: 'Inter',
-                fontWeight: 700,
-                letterSpacing: '.1rem',
-                color: 'inherit',
-                textDecoration: 'none',
-                fontSize: { xs: '1rem', md: '1.5rem' },
-              }}
-            >
-              FateLock Consulting
-            </Typography>
-          </motion.div>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: { md: 'flex-end', lg: 'left' } }}>
-            {pages.map((page, index) => (
-              <motion.div key={page} variants={itemVariants} custom={index}>
-                <Button
-                  onClick={() => {
-                    switch (page) {
-                      case 'Profile':
-                        handleHomeClick();
-                        break;
-                      case 'My Skillset':
-                        handleExperienceClick();
-                        break;
-                      case 'Professional Experience':
-                        handleProjectsClick();
-                        break;
-                      case 'About':
-                        handleAboutClick();
-                        break;
-                      default:
-                        handleCloseNavMenu();
-                    }
-                  }}
-                  sx={{ my: 2, color: 'white', display: 'block', fontSize: { xs: '0.75rem', sm: '0.875rem', md: '1rem' } }}
-                >
-                  {page}
-                </Button>
-              </motion.div>
-            ))}
-          </Box>
-
-          <motion.div variants={itemVariants}>
-            <Box sx={{ flexGrow: 0 }}>
-              <IconButton sx={{ p: 0 }}>
-                <Avatar alt="Egor Kharlamov" src={EgorIcon} sx={{ width: { xs: 40, md: 85 }, height: { xs: 40, md: 85 } }} />
-              </IconButton>
-            </Box>
-          </motion.div>
         </Toolbar>
       </AppBar>
     </motion.div>
   );
-}
+};
 
 export default ResponsiveAppBar;
