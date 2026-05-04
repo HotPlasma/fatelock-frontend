@@ -163,7 +163,7 @@ const ToolsComponent = forwardRef<HTMLDivElement>((props, ref) => {
             Tools of the trade
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 560, mx: 'auto' }}>
-            Cloud platforms, languages, and day-to-day stack I use to ship secure, observable systems at scale.
+            I have significant experience with the following tools and technologies.
           </Typography>
         </Card>
       </motion.div>

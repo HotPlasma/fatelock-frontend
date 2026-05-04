@@ -113,31 +113,32 @@ const AboutComponent = forwardRef<HTMLDivElement>((props, ref) => {
                 </motion.div>
                 <motion.div variants={staggerItemVariants}>
                   <Typography variant="body1" color="text.secondary" paragraph>
-                    I am a professional, certified cloud engineer based in Brackley, England, with a long background in
-                    full-stack development. My move into platform work started pragmatically: servers were often down and
-                    the infrastructure team was overseas, so I asked for AWS access and fixed what was blocking the team.
+                    I am a professional, certified cloud specialist developer based in Brackley, England, with a long background in
+                    full-stack development. My journey into DevOps began unexpectedly during my first role as a developer. The servers were frequently down and with the infrastructure team based in America, I was left waiting until 2 PM for them to address the issues.
                   </Typography>
                 </motion.div>
                 <motion.div variants={staggerItemVariants}>
                   <Typography variant="body1" color="text.secondary" paragraph>
-                    That turned into a career theme — automating toil, making releases boring (in the best way), and being
-                    the person who can go deep across the stack when production needs it. I have consulted at UK
-                    government scale, scaled startups onto AWS, and now lead technology end-to-end.
+                  Frustrated by the delays, I requested AWS access to handle the problems myself. This initiative not only resolved our issues more efficiently but also sparked my passion for cloud infrastructure. I quickly became the go-to person for any platform problems and I found immense satisfaction in this role.
                   </Typography>
                 </motion.div>
                 <motion.div variants={staggerItemVariants}>
                   <Typography variant="body1" color="text.secondary" paragraph>
-                    Today I am Head of Technology at Low6, where I set direction for cloud architecture, reliability, and
-                    engineering practices while staying close to delivery across TypeScript, Go, React, React Native, and
-                    modern data stores. Recent focus areas include SLIs/SLOs, incident culture, AI-assisted engineering
-                    workflows, and architecture proven at very large concurrent audiences — alongside ISO27001 and
+                    Skip to today, I am the Head of Technology at Low6, where I set direction for cloud architecture, reliability and
+                    engineering practices while staying close to delivery across TypeScript, Go, React, React Native. Recent focus areas include introducing SLIs/SLOs, incident culture, AI-assisted engineering
+                    workflows, and architecture proven to work at very large concurrent audiences — alongside ISO27001 and
                     demanding client security expectations.
                   </Typography>
+                  <motion.div variants={staggerItemVariants}>
+                  <Typography variant="body1" color="text.secondary" paragraph>
+                  I look forward to seeing where the future takes me.
+                  </Typography>
+                </motion.div>
                 </motion.div>
                 <motion.div variants={staggerItemVariants}>
                   <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <Typography variant="body1" color="text.secondary" paragraph>
-                      Earlier chapters include migrating a scale-up from on-prem to AWS (CloudFormation, ECS, blue/green,
+                      Earlier chapters of my career include migrating a scale-up from on-prem to AWS (CloudFormation, ECS, blue/green,
                       strong observability), and NHS Login delivery with CDK-defined AWS, frequent production releases,
                       and comprehensive automated testing before go-live.
                     </Typography>

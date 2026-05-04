@@ -46,17 +46,15 @@ const jobs: Job[] = [
     period: 'November 2024 – Present',
     location: 'Remote, England',
     summary:
-      'Market-leading creator of free-to-play experiences that improve brand engagement. I direct technology strategy and delivery across cloud architecture, backend, web, and native mobile while leading distributed teams.',
+      'Market-leading creator of free-to-play experiences that improve brand engagement. I directed technology strategy and delivery across cloud architecture, backend, web, and native mobile while managing large distributed teams.',
     bullets: [
-      'Global engineering leadership (UK, US, Canada, Ukraine, India) with hands-on ownership across TypeScript, Go, Node, React, React Native, Fastify/Express, Drizzle, PostgreSQL, Azure, and AWS.',
-      'Reliability culture: SLIs/SLOs, error budgets, blameless post-incident reviews, and continuous learning loops.',
-      'Architecture for extreme scale (1M+ concurrent users) with caching, event-driven offload, autoscaling, and load testing (e.g. Gatling) ahead of major releases.',
-      'Enterprise client work (BBC, NHL, ITV, and more): solution design, pitches, and delivery planning that win and ship.',
-      'ISO27001 and strong privacy posture; IaC with Terraform/OpenTofu; consolidated cloud operations (including closing AWS within six months where it made sense).',
-    ],
-    extraBullets: [
+      'Global engineering leadership (UK, US, Canada, Ukraine, India) with hands-on ownership across TypeScript, Go, Node, React, React Native, Fastify/Express, Drizzle-ORM, PostgreSQL, Azure, and AWS.',
+      'Instilled a reliability culture: SLIs/SLOs, error budgets, blameless post-incident reviews, and continuous learning loops.',
+      'Planned and created architecture for extreme scale (1M+ concurrent users) with caching, event-driven offload, autoscaling, and load testing (e.g. Gatling) ahead of major releases.',
+      'Completed enterprise client work (BBC, NHL, ITV, and more): solution design, pitches, and delivery planning that win and ship.',
+      'HandledISO27001 and strong privacy posture; IaC with Terraform/OpenTofu; consolidated cloud operations (including closing AWS within six months where it made sense).',
       'AI-assisted engineering: led redesign of workflows using Claude Code Max with senior developers for requirements → tickets → docs → planning before agent-assisted implementation; independent AI (Qodo Merge) on initial PR review before humans.',
-      'Production observability with Azure Insights and Sentry; on-call with PagerDuty and clear escalation training.',
+      'Added production observability with Azure Insights and Sentry; on-call with PagerDuty and clear escalation training.',
     ],
     liveSite: 'https://www.low6.com/',
     current: true,
@@ -68,12 +66,12 @@ const jobs: Job[] = [
     period: 'July 2022 – November 2024',
     location: 'Bristol, England',
     summary:
-      'Consultancy delivery for NHS Login — a fully serverless platform used by tens of millions of people — with a focus on safe, frequent releases and platform hardening.',
+      'Consulted as a DevOps Engineer for the NHS Login Platform of over 42 million users — a fully serverless platform used by tens of millions of people — with a focus on safe, frequent releases and platform hardening.',
     bullets: [
       'Led 5+ production releases per week with auditable change and fast, well-assessed incident response.',
       'AWS with CDK and Python: CodePipeline, CodeBuild, DynamoDB, CloudWatch, Lambda, IAM, Step Functions, ECS on Fargate.',
       'Security automation: Dockerised ClamAV definition updates on ECS Fargate; Nexus IQ in pipelines to block vulnerable dependencies.',
-      'Owned path-to-live test automation (BrowserStack, Locust, JMeter, Postman) gating production.',
+      'Created and owned path-to-live test automation (BrowserStack, Locust, JMeter, Postman) gating production.',
       'Cross-account event forwarding into Slack for actionable alarms; AWS workshops for developers.',
       'Squad lead for seven engineers: ways of working, growth conversations, and team health.',
     ],
@@ -89,6 +87,7 @@ const jobs: Job[] = [
       'Scale-up SaaS (car services) — kept releases smooth, automated toil, and led a full migration from proprietary hosting to AWS.',
     bullets: [
       'Designed and executed migration to AWS with CloudFormation, ECS, blue/green environments, and chat-integrated alarms.',
+      'Migrated databases from on-prem to AWS using RDS and DynamoDB',
       'Full-stack support across React, React Native, Angular, TypeScript, Sequelize, and PostgreSQL.',
       'Replaced legacy cron with Lambda functions with Jest tests, pipelines, and CloudWatch alarms per function.',
     ],
@@ -104,8 +103,9 @@ const jobs: Job[] = [
       'Industry-leading iGaming supplier — led large game teams, shipped many titles, and bridged engineering with management.',
     bullets: [
       'Led a team of 23 game developers (six direct reports) across 50+ new titles and 200+ legacy projects.',
-      'Shipped slot games with TypeScript/Node frontends and C++ maths engines; later owned DevOps-heavy workflows (EC2, Jenkins, Linux/Windows).',
+      'Shipped slot games with TypeScript/Node frontends and C++ maths engines; later owned DevOps-heavy workflows (EC2, Jenkins, Linux/Windows Servers).',
       'Agile delivery, customer-driven triage, cross-department process improvements, mentoring, and hiring.',
+      'Handled production deployments, outages and incidents with actionable insights and post-incident reviews.'
     ],
     liveSite: 'https://igaming-demo.lnw.com/checkage',
   },
@@ -180,7 +180,7 @@ const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
             Portfolio
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 560, mx: 'auto' }}>
-            Roles and delivery highlights from NHS-scale platforms to high-traffic consumer products. Full CV on request via LinkedIn.
+            Roles I've held since graduating from university.
           </Typography>
         </Box>
       </motion.div>
