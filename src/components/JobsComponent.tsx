@@ -1,187 +1,311 @@
-import { forwardRef } from 'react';
-import { Box, Typography, Grid, Button, Card, CardContent, useMediaQuery, useTheme } from '@mui/material';
+import { forwardRef, useState } from 'react';
+import {
+  Box,
+  Typography,
+  Grid,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  Collapse,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useScrollDirection } from '../hooks/useScrollDirection';
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import SGImage from '../assets/images/SG.jpg';
 import DroplessImage from '../assets/images/dropless.jpg';
 import BJSSImage from '../assets/images/bjss.jpg';
 import Low6Image from '../assets/images/low6.png';
 
+type Job = {
+  image: string;
+  company: string;
+  title: string;
+  period: string;
+  location: string;
+  summary: string;
+  bullets: string[];
+  extraBullets?: string[];
+  liveSite: string;
+  current?: boolean;
+};
+
+const jobs: Job[] = [
+  {
+    image: Low6Image,
+    company: 'Low6',
+    title: 'Head of Technology',
+    period: 'November 2024 – Present',
+    location: 'Remote, England',
+    summary:
+      'Market-leading creator of free-to-play experiences that improve brand engagement. I direct technology strategy and delivery across cloud architecture, backend, web, and native mobile while leading distributed teams.',
+    bullets: [
+      'Global engineering leadership (UK, US, Canada, Ukraine, India) with hands-on ownership across TypeScript, Go, Node, React, React Native, Fastify/Express, Drizzle, PostgreSQL, Azure, and AWS.',
+      'Reliability culture: SLIs/SLOs, error budgets, blameless post-incident reviews, and continuous learning loops.',
+      'Architecture for extreme scale (1M+ concurrent users) with caching, event-driven offload, autoscaling, and load testing (e.g. Gatling) ahead of major releases.',
+      'Enterprise client work (BBC, NHL, ITV, and more): solution design, pitches, and delivery planning that win and ship.',
+      'ISO27001 and strong privacy posture; IaC with Terraform/OpenTofu; consolidated cloud operations (including closing AWS within six months where it made sense).',
+    ],
+    extraBullets: [
+      'AI-assisted engineering: led redesign of workflows using Claude Code Max with senior developers for requirements → tickets → docs → planning before agent-assisted implementation; independent AI (Qodo Merge) on initial PR review before humans.',
+      'Production observability with Azure Insights and Sentry; on-call with PagerDuty and clear escalation training.',
+    ],
+    liveSite: 'https://www.low6.com/',
+    current: true,
+  },
+  {
+    image: BJSSImage,
+    company: 'BJSS / CGI',
+    title: 'DevOps Engineer & Squad Lead',
+    period: 'July 2022 – November 2024',
+    location: 'Bristol, England',
+    summary:
+      'Consultancy delivery for NHS Login — a fully serverless platform used by tens of millions of people — with a focus on safe, frequent releases and platform hardening.',
+    bullets: [
+      'Led 5+ production releases per week with auditable change and fast, well-assessed incident response.',
+      'AWS with CDK and Python: CodePipeline, CodeBuild, DynamoDB, CloudWatch, Lambda, IAM, Step Functions, ECS on Fargate.',
+      'Security automation: Dockerised ClamAV definition updates on ECS Fargate; Nexus IQ in pipelines to block vulnerable dependencies.',
+      'Owned path-to-live test automation (BrowserStack, Locust, JMeter, Postman) gating production.',
+      'Cross-account event forwarding into Slack for actionable alarms; AWS workshops for developers.',
+      'Squad lead for seven engineers: ways of working, growth conversations, and team health.',
+    ],
+    liveSite: 'https://www.bjss.com/',
+  },
+  {
+    image: DroplessImage,
+    company: 'Dropless',
+    title: 'Lead Cloud Engineer',
+    period: 'May 2021 – July 2022',
+    location: 'Bristol, England',
+    summary:
+      'Scale-up SaaS (car services) — kept releases smooth, automated toil, and led a full migration from proprietary hosting to AWS.',
+    bullets: [
+      'Designed and executed migration to AWS with CloudFormation, ECS, blue/green environments, and chat-integrated alarms.',
+      'Full-stack support across React, React Native, Angular, TypeScript, Sequelize, and PostgreSQL.',
+      'Replaced legacy cron with Lambda functions with Jest tests, pipelines, and CloudWatch alarms per function.',
+    ],
+    liveSite: 'https://dropless.co.uk/',
+  },
+  {
+    image: SGImage,
+    company: 'Scientific Games Digital / Light & Wonder',
+    title: 'Lead Game Developer',
+    period: 'April 2017 – May 2021',
+    location: 'Bristol, England',
+    summary:
+      'Industry-leading iGaming supplier — led large game teams, shipped many titles, and bridged engineering with management.',
+    bullets: [
+      'Led a team of 23 game developers (six direct reports) across 50+ new titles and 200+ legacy projects.',
+      'Shipped slot games with TypeScript/Node frontends and C++ maths engines; later owned DevOps-heavy workflows (EC2, Jenkins, Linux/Windows).',
+      'Agile delivery, customer-driven triage, cross-department process improvements, mentoring, and hiring.',
+    ],
+    liveSite: 'https://igaming-demo.lnw.com/checkage',
+  },
+];
+
 const JobsComponent = forwardRef<HTMLDivElement>((props, ref) => {
-    // Use theme and media query hook to detect mobile
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const scrollDirection = useScrollDirection();
+  const reducedMotion = usePrefersReducedMotion();
+  const [expandedId, setExpandedId] = useState<number | null>(null);
 
-    // Scroll direction detection
-    const scrollDirection = useScrollDirection();
+  const getInViewOptions = (threshold: number) => ({
+    triggerOnce: false,
+    threshold: isMobile ? Math.max(threshold - 0.1, 0.1) : threshold,
+    rootMargin: isMobile ? '0px 0px -30px 0px' : '0px 0px -60px 0px',
+  });
 
-    // Adaptive intersection observer settings
-    const getInViewOptions = (threshold: number) => ({
-        triggerOnce: false,
-        threshold: isMobile ? Math.max(threshold - 0.1, 0.1) : threshold,
-        rootMargin: isMobile ? '0px 0px -30px 0px' : '0px 0px -60px 0px'
-    });
+  const { ref: sectionRef, inView: sectionInView } = useInView(getInViewOptions(0.12));
+  const { ref: titleRef, inView: titleInView } = useInView(getInViewOptions(0.25));
 
-    const { ref: sectionRef, inView: sectionInView } = useInView(getInViewOptions(0.2));
-    const { ref: titleRef, inView: titleInView } = useInView(getInViewOptions(0.3));
+  const combinedRef = (node: HTMLDivElement) => {
+    if (ref) {
+      if (typeof ref === 'function') ref(node);
+      else ref.current = node;
+    }
+    sectionRef(node);
+  };
 
-    // Combine both refs into one
-    const combinedRef = (node: HTMLDivElement) => {
-        if (ref) {
-            if (typeof ref === 'function') {
-                ref(node);
-            } else if (ref.current !== undefined) {
-                ref.current = node;
-            }
-        }
-        sectionRef(node);
-    };
+  const yTitle = reducedMotion ? 0 : scrollDirection === 'up' ? -16 : 16;
+  const titleVariants = {
+    hidden: { opacity: 0, y: yTitle },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: reducedMotion ? 0 : 0.5, ease: 'easeOut' as const },
+    },
+  };
 
-    // Title animation
-    const titleVariants = {
-        hidden: { 
-            opacity: 0, 
-            y: scrollDirection === 'up' ? -20 : 20 
-        },
-        visible: { 
-            opacity: 1, 
-            y: 0,
-            transition: {
-                duration: 0.6,
-                ease: "easeOut"
-            }
-        },
-    };
+  const staggerContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: reducedMotion ? 0 : isMobile ? 0.12 : 0.18,
+        delayChildren: reducedMotion ? 0 : 0.06,
+        staggerDirection: scrollDirection === 'up' ? -1 : 1,
+      },
+    },
+  };
 
-    // Stagger container for job cards with directional awareness
-    const staggerContainerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: isMobile ? 0.2 : 0.3,
-                delayChildren: 0.1,
-                // Reverse stagger direction when scrolling up
-                staggerDirection: scrollDirection === 'up' ? -1 : 1
-            }
-        }
-    };
+  const staggerItemVariants = {
+    hidden: {
+      opacity: 0,
+      y: reducedMotion ? 0 : scrollDirection === 'up' ? -22 : 22,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: reducedMotion ? 0 : isMobile ? 0.45 : 0.55, ease: 'easeOut' as const },
+    },
+  };
 
-    const staggerItemVariants = {
-        hidden: { 
-            opacity: 0, 
-            y: scrollDirection === 'up' ? -30 : 30,
-            x: isMobile ? 0 : (scrollDirection === 'up' ? -15 : 15)
-        },
-        visible: { 
-            opacity: 1, 
-            y: 0,
-            x: 0,
-            transition: {
-                duration: isMobile ? 0.5 : 0.7,
-                ease: "easeOut"
-            }
-        }
-    };
-
-    const jobs = [
-        {
-            image: Low6Image,
-            company: 'Low6',
-            title: 'Head of Technology (Current Role)',
-            description: 'Low6 is a free-to-play market leader in the iGaming industry. I am responsible for the technology team and the infrastructure that powers the business. Leading a team of 17+ developers, I ensure techical excellence in frontend, backend, mobile and infrastructure.',
-            liveSite: 'https://www.low6.com/',
-            checkCode: '#',
-        },
-        {
-            image: BJSSImage,
-            company: 'BJSS - Aquired by CGI',
-            title: 'DevOps Engineer & Squad Lead',
-            description: 'Consulted as a DevOps Engineer for the NHS Login Platform of over 42 million users. Dockerised code, improved security by adding vulnerability scans to all pipelines, created developer testing infrastructure. Deployed code changes including features to production 8+ times per week and resolved complex issues while on call.',
-            liveSite: 'https://www.bjss.com/',
-            checkCode: '#',
-        },
-        {
-            image: DroplessImage,
-            company: 'Dropless',
-            title: 'Lead Cloud Engineer',
-            description: 'Moved this scale up company from on-prem to AWS. The final solution included Cloudfront, Cloudformation, ECS, CodePipeline, RDS (postgres), lambdas and cloudwatch.',
-            liveSite: 'https://dropless.co.uk/',
-            checkCode: '#',
-        },
-        {
-            image: SGImage,
-            company: 'SG Digital',
-            title: 'Lead Game Developer',
-            description: 'Developed Slot Games with Typescript and C++, later took on a more DevOps role using EC2, Jenkins, Linux and windows servers.',
-            liveSite: 'https://igaming-demo.lnw.com/checkage',
-            checkCode: '#',
-        },
-    ];
-
-    return (
-        <Box mt={4} p={2} textAlign="center" ref={combinedRef} {...props}>
-            <motion.div
-                ref={titleRef}
-                initial="hidden"
-                animate={titleInView ? "visible" : "hidden"}
-                variants={titleVariants}
-            >
-                <Typography variant="h3" component="h2" gutterBottom>
-                    Professional Experience
-                </Typography>
-                <Typography variant="body1" color="whitesmoke" paragraph>
-                    Ask me on LinkedIn for a CV with more info on these
-                </Typography>
-            </motion.div>
-            
-            <motion.div
-                initial="hidden"
-                animate={sectionInView ? "visible" : "hidden"}
-                variants={staggerContainerVariants}
-            >
-                <Grid container spacing={4} justifyContent="center">
-                    {jobs.map((job, index) => (
-                        <Grid item xs={12} md={8} key={index}>
-                            <motion.div variants={staggerItemVariants}>
-                                <Card sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, mb: 4, position: 'relative' }}>
-                                    <Box sx={{ flex: '1 1 50%', position: 'relative' }}>
-                                        <img src={job.image} alt={job.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                        <Box sx={{
-                                            position: 'absolute',
-                                            top: 16,
-                                            left: 16,
-                                            padding: '4px 8px',
-                                            bgcolor: 'rgba(102, 45, 145, 0.7)',
-                                            borderRadius: '4px'
-                                        }}>
-                                            <Typography variant="caption" color="white">
-                                                {job.company}
-                                            </Typography>
-                                        </Box>
-                                    </Box>
-                                    <CardContent sx={{ flex: '1 1 50%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                        <Typography variant="h5" component="div" gutterBottom>
-                                            {job.title}
-                                        </Typography>
-                                        <Typography variant="body1" color="text.secondary" paragraph>
-                                            {job.description}
-                                        </Typography>
-                                        <Box>
-                                            <Button variant="contained" color="primary" sx={{ mr: 2 }} href={job.liveSite} target="_blank">
-                                                Company Website
-                                            </Button>
-                                        </Box>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
-                        </Grid>
-                    ))}
-                </Grid>
-            </motion.div>
+  return (
+    <Box component="section" id="experience" aria-label="Professional experience" sx={{ py: 1 }} ref={combinedRef} {...props}>
+      <motion.div ref={titleRef} initial="hidden" animate={titleInView ? 'visible' : 'hidden'} variants={titleVariants}>
+        <Box textAlign="center" sx={{ mb: 3 }}>
+          <Typography variant="h2" component="h2" gutterBottom>
+            Experience
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 560, mx: 'auto' }}>
+            Highlights aligned to my latest CV. Ask on LinkedIn for the full document.
+          </Typography>
         </Box>
-    );
+      </motion.div>
+
+      <motion.div initial="hidden" animate={sectionInView ? 'visible' : 'hidden'} variants={staggerContainerVariants}>
+        <Grid container spacing={3} justifyContent="center">
+          {jobs.map((job, index) => (
+            <Grid item xs={12} key={index}>
+              <motion.div variants={staggerItemVariants}>
+                <Card
+                  sx={{
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: { xs: 'column', md: 'row' },
+                    alignItems: 'stretch',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      flex: { xs: '0 0 200px', md: '0 0 42%' },
+                      position: 'relative',
+                      minHeight: { xs: 200, md: 320 },
+                    }}
+                  >
+                    <Box
+                      component="img"
+                      src={job.image}
+                      alt={job.company}
+                      sx={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
+                    />
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: 'linear-gradient(to top, rgba(10,10,15,0.92) 0%, transparent 55%)',
+                        pointerEvents: 'none',
+                      }}
+                    />
+                    <Box sx={{ position: 'absolute', left: 16, top: 16, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                      <Chip
+                        size="small"
+                        label={job.company}
+                        sx={{ bgcolor: 'rgba(10,10,15,0.65)', color: 'text.primary', border: '1px solid rgba(255,255,255,0.12)' }}
+                      />
+                      {job.current && (
+                        <Chip
+                          size="small"
+                          label="Current"
+                          color="primary"
+                          sx={{ fontWeight: 700, color: '#fff' }}
+                        />
+                      )}
+                    </Box>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        position: 'absolute',
+                        left: 16,
+                        bottom: 14,
+                        color: 'rgba(255,255,255,0.88)',
+                        display: 'block',
+                        maxWidth: '90%',
+                      }}
+                    >
+                      {job.period} · {job.location}
+                    </Typography>
+                  </Box>
+
+                  <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', py: 3, px: { xs: 2, md: 3 } }}>
+                    <Typography variant="h5" component="h3" gutterBottom>
+                      {job.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" paragraph>
+                      {job.summary}
+                    </Typography>
+                    <List dense disablePadding sx={{ mb: 2 }}>
+                      {job.bullets.map((b, bi) => (
+                        <ListItem key={`${index}-b-${bi}`} disableGutters sx={{ alignItems: 'flex-start', py: 0.35 }}>
+                          <ListItemIcon sx={{ minWidth: 22, mt: 0.6 }}>
+                            <FiberManualRecordIcon sx={{ fontSize: 8, color: 'primary.light' }} />
+                          </ListItemIcon>
+                          <ListItemText primaryTypographyProps={{ variant: 'body2', color: 'text.primary' }} primary={b} />
+                        </ListItem>
+                      ))}
+                    </List>
+                    {job.extraBullets && job.extraBullets.length > 0 && (
+                      <>
+                        <Collapse in={expandedId === index} timeout="auto">
+                          <List dense disablePadding sx={{ mb: 2 }}>
+                            {job.extraBullets.map((b, ei) => (
+                              <ListItem key={`${index}-e-${ei}`} disableGutters sx={{ alignItems: 'flex-start', py: 0.35 }}>
+                                <ListItemIcon sx={{ minWidth: 22, mt: 0.6 }}>
+                                  <FiberManualRecordIcon sx={{ fontSize: 8, color: 'secondary.main' }} />
+                                </ListItemIcon>
+                                <ListItemText primaryTypographyProps={{ variant: 'body2', color: 'text.primary' }} primary={b} />
+                              </ListItem>
+                            ))}
+                          </List>
+                        </Collapse>
+                        <Button
+                          variant="text"
+                          color="primary"
+                          onClick={() => setExpandedId(expandedId === index ? null : index)}
+                          sx={{ alignSelf: 'flex-start', mb: 1 }}
+                        >
+                          {expandedId === index ? 'Show less' : 'Read more'}
+                        </Button>
+                      </>
+                    )}
+                    <Box>
+                      <Button variant="contained" color="primary" href={job.liveSite} target="_blank" rel="noopener noreferrer">
+                        Company site
+                      </Button>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </Grid>
+          ))}
+        </Grid>
+      </motion.div>
+    </Box>
+  );
 });
 
 export default JobsComponent;

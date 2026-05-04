@@ -6,13 +6,13 @@ import ToolsComponent from './components/ToolsComponent.tsx';
 import JobsComponent from './components/JobsComponent.tsx';
 import AboutMe from './components/AboutMeComponent.tsx';
 import Link from '@mui/material/Link';
-import { Typography, Divider, useMediaQuery, useTheme } from '@mui/material';
-import AnimatedCursor from "react-animated-cursor";
+import { Typography, Box, Container, Divider, useMediaQuery, useTheme } from '@mui/material';
+import AnimatedCursor from 'react-animated-cursor';
 
 function App() {
-  const toolsRef = useRef(null);
-  const jobsRef = useRef(null);
-  const aboutRef = useRef(null);
+  const toolsRef = useRef<HTMLDivElement>(null);
+  const jobsRef = useRef<HTMLDivElement>(null);
+  const aboutRef = useRef<HTMLDivElement>(null);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -25,21 +25,28 @@ function App() {
 
   return (
     <>
-      <div>
-        <ResponsiveAppBar toolsRef={toolsRef} jobsRef={jobsRef} aboutRef={aboutRef} />
-      </div>
-      <Profile projectsRef={jobsRef} />
-      <Divider sx={{ my: 3, bgcolor: 'white', height: '1px' }} />
-      <ToolsComponent ref={toolsRef} />
-      <Divider sx={{ my: 3, bgcolor: 'white', height: '1px' }} />
-      <JobsComponent ref={jobsRef} />
-      <Divider sx={{ my: 3, bgcolor: 'white', height: '1px' }} />
-      <AboutMe ref={aboutRef} />
-      <Divider sx={{ my: 3, bgcolor: 'white', height: '1px' }} />
-
-      <div>
-        <Copyright />
-      </div>
+      <ResponsiveAppBar toolsRef={toolsRef} jobsRef={jobsRef} aboutRef={aboutRef} />
+      <Box
+        component="main"
+        sx={{
+          flex: 1,
+          width: '100%',
+          pt: { xs: 10, sm: 11 },
+          pb: 6,
+        }}
+      >
+        <Container maxWidth="lg" disableGutters sx={{ px: { xs: 2, sm: 3 } }}>
+          <Profile projectsRef={jobsRef} />
+          <Divider sx={{ my: { xs: 4, md: 6 } }} />
+          <ToolsComponent ref={toolsRef} />
+          <Divider sx={{ my: { xs: 4, md: 6 } }} />
+          <JobsComponent ref={jobsRef} />
+          <Divider sx={{ my: { xs: 4, md: 6 } }} />
+          <AboutMe ref={aboutRef} />
+          <Divider sx={{ my: { xs: 4, md: 6 } }} />
+          <Copyright />
+        </Container>
+      </Box>
       {!isMobile && (
         <AnimatedCursor
           showSystemCursor={true}
@@ -49,25 +56,24 @@ function App() {
           outerScale={2}
           outerAlpha={0}
           outerStyle={{
-            border: '3px solid var(--cursor-color)'
+            border: '3px solid var(--cursor-color)',
           }}
         />
       )}
     </>
-  )
+  );
 }
 
 function Copyright() {
   return (
-    <Typography
-      variant="body2"
-      align="center"
-    >
+    <Typography variant="body2" align="center" color="text.secondary" component="footer" sx={{ py: 2 }}>
       {'Copyright © '}
-      <Link color="inherit" href="https://fatelock.com">
+      <Link color="inherit" href="https://fatelock.com" underline="hover">
         FateLock Consulting
-      </Link>{' '}
-      {new Date().getFullYear()}.
+      </Link>
+      {' · '}
+      {new Date().getFullYear()}
+      {'. Personal site of Egor Kharlamov.'}
     </Typography>
   );
 }

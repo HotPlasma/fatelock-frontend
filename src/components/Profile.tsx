@@ -1,281 +1,315 @@
-import React, { useEffect } from 'react';
-import { Box, Typography, Card, CardContent, Button, Grid, useMediaQuery, useTheme } from '@mui/material';
+import React, { useEffect, useMemo } from 'react';
+import {
+  Box,
+  Typography,
+  Button,
+  Grid,
+  useMediaQuery,
+  useTheme,
+  Container,
+  Link,
+  Card,
+  CardContent,
+} from '@mui/material';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useScrollDirection } from '../hooks/useScrollDirection';
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import profileImage from '../assets/images/profile.jpg';
-import BuildIcon from '@mui/icons-material/Build';
-import HttpIcon from '@mui/icons-material/Http';
-import CodeIcon from '@mui/icons-material/Code';
-import '../styles/App.css';
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
+import AutoGraphOutlinedIcon from '@mui/icons-material/AutoGraphOutlined';
 
-// Enhanced animation variants with directional awareness
-const getDirectionalVariants = (scrollDirection: string, isMobile: boolean) => ({
-    fadeInVariants: {
-        hidden: { 
-            opacity: 0, 
-            y: scrollDirection === 'up' ? -30 : 30 
-        },
-        visible: { 
-            opacity: 1, 
-            y: 0,
-            transition: {
-                duration: isMobile ? 0.5 : 0.7,
-                ease: "easeOut"
-            }
-        },
-    },
-    staggerContainerVariants: {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2
-            }
-        }
-    },
-    staggerItemVariants: {
-        hidden: { 
-            opacity: 0, 
-            y: scrollDirection === 'up' ? -20 : 20 
-        },
-        visible: { 
-            opacity: 1, 
-            y: 0,
-            transition: {
-                duration: 0.6,
-                ease: "easeOut"
-            }
-        }
-    }
-});
-
-// Icons for the second section
-const icons = [
-    { component: BuildIcon, title: 'DevOps Engineer', description: 'I\'m very experienced in working with clients and stakeholders to identify their needs and translate requirements into cloud-based technical solutions, many of which are used by millions daily. I love automating away repetitive work and resolving critical issues causing blockers. It\'s very fulfilling. Even better lets discuss how to catch the problem early in future.' },
-    { component: HttpIcon, title: 'Strong Fullstack Developer', description: 'Problem solver first and foremost. I\'ve fixed everything from android apps to windows servers to smart fridges. But don\'t just take my word for it. I may specalise in the cloud but that doesn\'t mean I can\'t make a react website or traceback an error in a language I\'m unfamilar with.' },
-    { component: CodeIcon, title: 'Code Ownership Beyond Production', description: 'As a veteran of final line on call - I ensure all production incidents are swiftly actioned following best practices for minimal disruption in a way that will be auditable in future. I have lead investigations into critical tech issues for multinational giants and the UK government, production is safe in my hands.' },
+const valueProps = [
+  {
+    icon: GroupsOutlinedIcon,
+    title: 'Team player',
+    description:
+      'I thrive in diverse technical environments — delegating effectively while staying ready to dive in personally when it matters.',
+  },
+  {
+    icon: SupportAgentOutlinedIcon,
+    title: 'Knowledgeable & approachable',
+    description:
+      'I have managed multiple technical teams successfully through bespoke support, regular 1:1s, and clear expectations.',
+  },
+  {
+    icon: AutoGraphOutlinedIcon,
+    title: 'Always steering improvement',
+    description:
+      'I identify pain points, automate them away, and improve team morale and output over time with measurable engineering practices.',
+  },
 ];
 
 interface ProfileProps {
-    projectsRef: React.RefObject<HTMLDivElement>;
+  projectsRef: React.RefObject<HTMLDivElement>;
 }
 
+const SCROLL_OFFSET = 80;
+
 const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
-    // Scroll to top on mount
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-    // Scroll direction detection
-    const scrollDirection = useScrollDirection();
+  const scrollDirection = useScrollDirection();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const reducedMotion = usePrefersReducedMotion();
 
-    // Use theme and media query hook to detect mobile
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const getInViewOptions = (threshold: number) => ({
+    triggerOnce: false,
+    threshold: isMobile ? Math.max(threshold - 0.1, 0.1) : threshold,
+    rootMargin: isMobile ? '0px 0px -50px 0px' : '0px 0px -100px 0px',
+  });
 
-    // Get directional variants
-    const variants = getDirectionalVariants(scrollDirection, isMobile);
+  const { ref: heroTextRef, inView: heroTextInView } = useInView(getInViewOptions(0.15));
+  const { ref: heroImageRef, inView: heroImageInView } = useInView(getInViewOptions(0.15));
+  const { ref: sectionTitleRef, inView: sectionTitleInView } = useInView(getInViewOptions(0.25));
+  const { ref: iconsRef, inView: iconsInView } = useInView(getInViewOptions(0.15));
 
-    // Adaptive intersection observer settings based on viewport
-    const getInViewOptions = (threshold: number) => ({
-        triggerOnce: false,
-        threshold: isMobile ? Math.max(threshold - 0.1, 0.1) : threshold,
-        rootMargin: isMobile ? '0px 0px -50px 0px' : '0px 0px -100px 0px'
-    });
+  const scrollToRef = (ref: React.RefObject<HTMLDivElement>) => {
+    if (ref.current) {
+      window.scrollTo({
+        top: ref.current.offsetTop - SCROLL_OFFSET,
+        behavior: reducedMotion ? 'auto' : 'smooth',
+      });
+    }
+  };
 
-    // Individual intersection observers for better control
-    const { ref: heroTextRef, inView: heroTextInView } = useInView(getInViewOptions(0.2));
-    const { ref: heroImageRef, inView: heroImageInView } = useInView(getInViewOptions(0.2));
-    const { ref: sectionTitleRef, inView: sectionTitleInView } = useInView(getInViewOptions(0.3));
-    const { ref: iconsRef, inView: iconsInView } = useInView(getInViewOptions(0.2));
+  const ySmall = reducedMotion ? 0 : scrollDirection === 'up' ? -16 : 16;
+  const dur = (base: number) => (reducedMotion ? 0.01 : isMobile ? base * 0.85 : base);
 
-    const ScrollOffset = 80; // Adjust as necessary for your AppBar height
+  const fadeInVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0, y: ySmall },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: dur(0.65), ease: 'easeOut' as const },
+      },
+    }),
+    [ySmall, dur]
+  );
 
-    const scrollToRef = (ref: React.RefObject<HTMLDivElement>) => {
-        if (ref.current) {
-            window.scrollTo({
-                top: ref.current.offsetTop - ScrollOffset,
-                behavior: 'smooth',
-            });
-        }
-    };
+  const staggerContainerVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: reducedMotion ? 0 : isMobile ? 0.12 : 0.16,
+          delayChildren: reducedMotion ? 0 : 0.06,
+        },
+      },
+    }),
+    [isMobile, reducedMotion]
+  );
 
-    const handleProjectsClick = () => {
-        if (projectsRef.current) {
-            scrollToRef(projectsRef);
-        }
-    };
+  const staggerItemVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0, y: reducedMotion ? 0 : scrollDirection === 'up' ? -14 : 14 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: dur(0.55), ease: 'easeOut' as const },
+      },
+    }),
+    [scrollDirection, reducedMotion, dur]
+  );
 
-    return (
-        <Card elevation={0} sx={{ backgroundColor: 'transparent', maxWidth: '100%', overflow: 'hidden' }}>
-            <CardContent sx={{ backgroundColor: 'transparent', p: 2 }}>
-                <Grid container spacing={2} alignItems="center" justifyContent="center" marginBottom={10}>
-                    {/* Text Section */}
-                    <Grid item xs={12} md={6} sx={{ mt: 8 }} ref={heroTextRef}>
-                        <motion.div
-                            initial="hidden"
-                            animate={heroTextInView ? "visible" : "hidden"}
-                            variants={variants.staggerContainerVariants}
-                        >
-                            <motion.div variants={variants.staggerItemVariants}>
-                                <Typography variant="h3" component="h1" gutterBottom sx={{ fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' } }}>
-                                    Hey there!
-                                </Typography>
-                            </motion.div>
-                            <motion.div variants={variants.staggerItemVariants}>
-                                <Typography variant="body1" gutterBottom color={'whitesmoke'} sx={{ fontSize: { xs: '0.875rem', sm: '1rem', md: '1.25rem' } }}>
-                                    I'm Egor Kharlamov. Experienced multi-cloud DevOps Engineer Consultant with a background of over a decade of professional software development experience specialising in cloud infrastructure design, implementation and management.
-                                </Typography>
-                            </motion.div>
-                            <motion.div variants={variants.staggerItemVariants}>
-                                <Typography variant="body1" gutterBottom color={'whitesmoke'} sx={{ fontSize: { xs: '0.875rem', sm: '1rem', md: '1.25rem' } }}>
-                                    And yes I made this website myself.
-                                </Typography>
-                            </motion.div>
-                            <motion.div variants={variants.staggerItemVariants}>
-                                <Box mt={2}>
-                                    <Button variant="contained" color="primary" sx={{ mr: 2 }} onClick={handleProjectsClick}>
-                                        View Professional Experience
-                                    </Button>
-                                    <Button
-                                        variant="outlined"
-                                        color="primary"
-                                        sx={{ mt: isMobile ? 1 : 0 }}
-                                        href="https://www.linkedin.com/in/egorkha/"
-                                        target="_blank"
-                                    >
-                                        Contact on LinkedIn
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        sx={{
-                                            mt: 2,
-                                            background: 'linear-gradient(90deg, #a4508b 0%, #5f0a87 100%)',
-                                            color: 'white',
-                                            borderRadius: '8px',
-                                            width: isMobile ? '100%' : 'auto',
-                                            boxShadow: '0 4px 10px 0 rgba(164,80,139,0.2)',
-                                            fontWeight: 500,
-                                            fontSize: { xs: '0.85rem', sm: '1rem' },
-                                            textTransform: 'none',
-                                            '&:hover': {
-                                                background: 'linear-gradient(90deg, #5f0a87 0%, #a4508b 100%)',
-                                            },
-                                        }}
-                                        href="https://glizzy.fatelock.com"
-                                        target="_blank"
-                                    >
-                                        CHECK OUT THIS NEW ONLINE PLAYING CARD GAME I MADE
-                                    </Button>
-                                </Box>
-                            </motion.div>
-                        </motion.div>
-                    </Grid>
-                    {/* Image Section */}
-                    <Grid item xs={12} md={6} sx={{ mt: 8 }} ref={heroImageRef}>
-                        <Box
-                            display="inline-block"
-                            position="relative"
-                            borderRadius="25px"
-                            overflow="hidden"
-                            sx={{ width: '100%', height: 'auto' }}
-                        >
-                            <motion.div
-                                initial="hidden"
-                                animate={heroImageInView ? "visible" : "hidden"}
-                                variants={variants.fadeInVariants}
-                            >
-                                <Box
-                                    component="img"
-                                    src={profileImage}
-                                    alt="Egor Kharlamov"
-                                    sx={{ width: '100%', height: 'auto', display: 'block', zIndex: "0" }}
-                                />
-                            </motion.div>
-                            <motion.div
-                                initial="hidden"
-                                animate={heroImageInView ? "visible" : "hidden"}
-                                variants={{
-                                    hidden: { 
-                                        opacity: 0, 
-                                        y: scrollDirection === 'up' ? -15 : 15 
-                                    },
-                                    visible: { 
-                                        opacity: 1, 
-                                        y: 0,
-                                        transition: { 
-                                            duration: 0.6, 
-                                            delay: 0.3, 
-                                            ease: "easeOut" 
-                                        }
-                                    }
-                                }}
-                            >
-                                <Box
-                                    position="absolute"
-                                    bottom="0"
-                                    bgcolor="rgba(102, 45, 145, 0.3)"
-                                    color="white"
-                                    p={1}
-                                    width="100%"
-                                    textAlign="center"
-                                >
-                                    <Typography variant="caption" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
-                                        "Whoever desires constant success must
-                                        change his conduct with the times" - Niccolo
-                                        Machiavelli
-                                    </Typography>
-                                </Box>
-                            </motion.div>
-                        </Box>
-                    </Grid>
-                </Grid>
-
-                {/* Part 2 */}
-                <Box mt={4} p={2} textAlign="center">
-                    <motion.div
-                        ref={sectionTitleRef}
-                        initial="hidden"
-                        animate={sectionTitleInView ? "visible" : "hidden"}
-                        variants={variants.fadeInVariants}
-                    >
-                        <Typography variant="h3" component="h2" gutterBottom>
-                            What I offer in a nutshell
-                        </Typography>
-                        <Typography variant="body1" color={'whitesmoke'} marginBottom={3}>
-                            Experienced DevOps Engineer, Proven Technical Manager & Charismatic Team Lead
-                        </Typography>
-                    </motion.div>
-                    
-                    <motion.div
-                        ref={iconsRef}
-                        initial="hidden"
-                        animate={iconsInView ? "visible" : "hidden"}
-                        variants={variants.staggerContainerVariants}
-                    >
-                        <Grid container spacing={2} justifyContent="center">
-                            {icons.map((icon, index) => (
-                                <Grid item xs={12} sm={4} key={index}>
-                                    <motion.div variants={variants.staggerItemVariants}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                            <icon.component sx={{ fontSize: 50, color: 'primary.main' }} />
-                                            <Typography variant="h6" component="h3" gutterBottom color={'whitesmoke'}>
-                                                {icon.title}
-                                            </Typography>
-                                            <Typography variant="body2" color={'whitesmoke'}>
-                                                {icon.description}
-                                            </Typography>
-                                        </Box>
-                                    </motion.div>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </motion.div>
+  return (
+    <Box
+      component="section"
+      id="home"
+      aria-label="Introduction"
+      sx={{
+        position: 'relative',
+        overflow: 'hidden',
+        pt: { xs: 2, md: 3 },
+        pb: { xs: 6, md: 8 },
+        mb: { xs: 2, md: 4 },
+        borderRadius: { xs: 0, md: 4 },
+        border: { xs: 'none', md: '1px solid rgba(255,255,255,0.06)' },
+        backgroundColor: 'background.paper',
+        backgroundImage: [
+          'radial-gradient(ellipse 120% 80% at 10% -20%, rgba(139, 92, 246, 0.22), transparent 55%)',
+          'radial-gradient(ellipse 90% 60% at 90% 0%, rgba(6, 182, 212, 0.14), transparent 50%)',
+          'radial-gradient(ellipse 60% 40% at 50% 100%, rgba(167, 139, 250, 0.08), transparent 45%)',
+        ].join(', '),
+      }}
+    >
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+        <Grid container spacing={{ xs: 3, md: 4 }} alignItems="center">
+          <Grid item xs={12} md={6} sx={{ pt: { xs: 6, md: 2 } }} ref={heroTextRef}>
+            <motion.div
+              initial="hidden"
+              animate={heroTextInView ? 'visible' : 'hidden'}
+              variants={staggerContainerVariants}
+            >
+              <motion.div variants={staggerItemVariants}>
+                <Typography
+                  variant="overline"
+                  sx={{ color: 'primary.light', letterSpacing: '0.2em', fontWeight: 700 }}
+                >
+                  Portfolio
+                </Typography>
+              </motion.div>
+              <motion.div variants={staggerItemVariants}>
+                <Typography
+                  variant="h1"
+                  component="h1"
+                  gutterBottom
+                  sx={{
+                    fontSize: { xs: '2.25rem', sm: '2.75rem', md: '3.25rem' },
+                    lineHeight: 1.08,
+                    background: 'linear-gradient(135deg, #f5f3ff 0%, #e0f2fe 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}
+                >
+                  Egor Kharlamov
+                </Typography>
+              </motion.div>
+              <motion.div variants={staggerItemVariants}>
+                <Typography variant="h5" component="p" color="text.secondary" sx={{ fontWeight: 500, mb: 2 }}>
+                  Proven tech leader and experienced lead DevOps engineer with a decade of full-stack programming
+                  expertise.
+                </Typography>
+              </motion.div>
+              <motion.div variants={staggerItemVariants}>
+                <Typography variant="body1" color="text.secondary" sx={{ mb: 2, maxWidth: 520 }}>
+                  I direct technology strategy and delivery with a focus on cloud architecture, reliability, and teams
+                  that ship — from NHS-scale platforms to high-traffic consumer experiences.
+                </Typography>
+              </motion.div>
+              <motion.div variants={staggerItemVariants}>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  This site is hand-built in React — no template.
+                </Typography>
+              </motion.div>
+              <motion.div variants={staggerItemVariants}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, alignItems: 'center' }}>
+                  <Button variant="contained" color="primary" onClick={() => scrollToRef(projectsRef)}>
+                    View experience
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    href="https://www.linkedin.com/in/egorkha/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    LinkedIn
+                  </Button>
                 </Box>
-            </CardContent>
-        </Card>
-    );
+                <Box sx={{ mt: 2 }}>
+                  <Link
+                    href="https://glizzy.fatelock.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="body2"
+                    sx={{ color: 'text.secondary', textDecoration: 'underline', textUnderlineOffset: 4 }}
+                  >
+                    Side project: Glizzy — online playing-card game
+                  </Link>
+                </Box>
+              </motion.div>
+            </motion.div>
+          </Grid>
+
+          <Grid item xs={12} md={6} ref={heroImageRef}>
+            <Box
+              sx={{
+                position: 'relative',
+                borderRadius: 4,
+                overflow: 'hidden',
+                border: '1px solid rgba(255,255,255,0.08)',
+                boxShadow: '0 24px 80px rgba(0,0,0,0.45)',
+              }}
+            >
+              <motion.div initial="hidden" animate={heroImageInView ? 'visible' : 'hidden'} variants={fadeInVariants}>
+                <Box
+                  component="img"
+                  src={profileImage}
+                  alt="Egor Kharlamov"
+                  sx={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </motion.div>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  p: 1.5,
+                  background: 'linear-gradient(to top, rgba(10,10,15,0.92), transparent)',
+                }}
+              >
+                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.85)', fontStyle: 'italic' }}>
+                  &ldquo;Whoever desires constant success must change his conduct with the times.&rdquo; — Niccolò
+                  Machiavelli
+                </Typography>
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Box sx={{ mt: { xs: 6, md: 8 } }} textAlign="center">
+          <motion.div
+            ref={sectionTitleRef}
+            initial="hidden"
+            animate={sectionTitleInView ? 'visible' : 'hidden'}
+            variants={fadeInVariants}
+          >
+            <Typography variant="h2" component="h2" gutterBottom>
+              How I stand out
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 640, mx: 'auto', mb: 3 }}>
+              Delivery, people, and engineering excellence — aligned with what I bring to leadership roles.
+            </Typography>
+          </motion.div>
+
+          <motion.div
+            ref={iconsRef}
+            initial="hidden"
+            animate={iconsInView ? 'visible' : 'hidden'}
+            variants={staggerContainerVariants}
+          >
+            <Grid container spacing={2} justifyContent="center">
+              {valueProps.map((row) => (
+                <Grid item xs={12} sm={6} md={4} key={row.title}>
+                  <motion.div variants={staggerItemVariants}>
+                    <Card
+                      sx={{
+                        height: '100%',
+                        textAlign: 'left',
+                        transition: 'transform 0.2s ease, border-color 0.2s ease',
+                        '&:hover': reducedMotion
+                          ? {}
+                          : { transform: 'translateY(-4px)', borderColor: 'rgba(167, 139, 250, 0.35)' },
+                      }}
+                    >
+                      <CardContent sx={{ p: 2.5 }}>
+                        <row.icon sx={{ fontSize: 36, color: 'primary.main', mb: 1.5 }} />
+                        <Typography variant="h6" component="h3" gutterBottom>
+                          {row.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {row.description}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+          </motion.div>
+        </Box>
+      </Container>
+    </Box>
+  );
 };
 
 export default Profile;
