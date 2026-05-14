@@ -52,7 +52,7 @@ const jobs: Job[] = [
       'Instilled a reliability culture: SLIs/SLOs, error budgets, blameless post-incident reviews, and continuous learning loops.',
       'Planned and created architecture for extreme scale (1M+ concurrent users) with caching, event-driven offload, autoscaling, and load testing (e.g. Gatling) ahead of major releases.',
       'Completed enterprise client work (BBC, NHL, ITV, and more): solution design, pitches, and delivery planning that win and ship.',
-      'HandledISO27001 and strong privacy posture; IaC with Terraform/OpenTofu; consolidated cloud operations (including closing AWS within six months where it made sense).',
+      'Handled ISO27001 and strong privacy posture; IaC with Terraform/OpenTofu; consolidated cloud operations (including closing AWS within six months where it made sense).',
       'AI-assisted engineering: led redesign of workflows using Claude Code Max with senior developers for requirements → tickets → docs → planning before agent-assisted implementation; independent AI (Qodo Merge) on initial PR review before humans.',
       'Added production observability with Azure Insights and Sentry; on-call with PagerDuty and clear escalation training.',
     ],
