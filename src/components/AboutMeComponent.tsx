@@ -131,7 +131,7 @@ const AboutComponent = forwardRef<HTMLDivElement>((props, ref) => {
                   </Typography>
                   <motion.div variants={staggerItemVariants}>
                   <Typography variant="body1" color="text.secondary" paragraph>
-                  I look forward to seeing where the future takes me.
+                  I am excited to continue developing my expertise by working on exciting projects and pursuing additional certifications.
                   </Typography>
                 </motion.div>
                 </motion.div>

@@ -500,7 +500,7 @@ const Profile: React.FC<ProfileProps> = ({ projectsRef }) => {
               How I stand out
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 640, mx: 'auto', mb: 3 }}>
-              Delivery, people, and engineering excellence — aligned with what I bring to leadership roles.
+            What I bring to leadership roles - Reliable delivery, people management and engineering excellence.
             </Typography>
           </motion.div>
 
